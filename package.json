@@ -1,0 +1,60 @@
+{
+  "name": "generate-typescript-docs",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Yuan Qing Lim",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yuanqing/generate-typescript-docs.git"
+  },
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "yarn run clean && tsc",
+    "clean": "rimraf '*.log' .nyc_output build coverage lib",
+    "fix": "eslint --fix 'src/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts'",
+    "prepublishOnly": "yarn run build",
+    "reset": "yarn run clean && rimraf node_modules yarn.lock && yarn install",
+    "test": "tap 'src/**/__tests__/**/*.ts' --coverage-report html --coverage-report text --jobs-auto --no-browser --reporter terse",
+    "watch": "yarn run clean && tsc --watch"
+  },
+  "dependencies": {
+    "globby": "^11.0.1",
+    "typescript": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.9",
+    "@types/tap": "^14.10.1",
+    "eslint": "^7.14.0",
+    "eslint-config-yuanqing": "^0.0.4",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.2.0",
+    "rimraf": "^3.0.2",
+    "tap": "^14.11.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.2"
+  },
+  "resolutions": {
+    "tap/@types/react": "17.0.0"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-yuanqing"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint"
+    ]
+  },
+  "prettier": "eslint-config-yuanqing/prettier"
+}
