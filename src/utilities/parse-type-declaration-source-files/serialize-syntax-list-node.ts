@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { DocEntry } from '../../types'
+import { Parameter } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import {
@@ -13,7 +13,7 @@ import { serializeFunctionTypeNode } from './serialize-function-type-node'
 export function serializeSyntaxListNode(
   node: ts.Node,
   parametersJsDoc: null | { [key: string]: string }
-): null | Array<DocEntry> {
+): Array<Parameter> {
   const childNodes = node.getChildren().filter(function (node: ts.Node) {
     return (
       node.kind === ts.SyntaxKind.Parameter ||
@@ -21,14 +21,16 @@ export function serializeSyntaxListNode(
     )
   })
   return childNodes.map(function (childNode: ts.Node) {
-    const identifierNode = traverseNode(childNode, [
+    const identifierNode = childNode.getChildAt(0)
+    if (typeof identifierNode === 'undefined') {
+      throw new Error('`identifierNode` is undefined')
+    }
+    const questionTokenNode = traverseNode(childNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
       getPreviousSiblingNode(),
-      isKind(ts.SyntaxKind.Identifier)
+      isKind(ts.SyntaxKind.QuestionToken)
     ])
-    if (identifierNode === null) {
-      throw new Error('`identifierNode` is null')
-    }
+    const optional = questionTokenNode === null
     const name = identifierNode.getText()
     const description = parametersJsDoc === null ? null : parametersJsDoc[name]
     const typeNode = traverseNode(childNode, [
@@ -41,10 +43,11 @@ export function serializeSyntaxListNode(
     if (typeNode.kind === ts.SyntaxKind.FunctionType) {
       // function
       return {
-        data: serializeFunctionTypeNode(typeNode, null),
         description,
         name,
-        type: 'function'
+        optional,
+        type: 'function',
+        ...serializeFunctionTypeNode(typeNode, null)
       }
     }
     if (typeNode.kind === ts.SyntaxKind.TypeLiteral) {
@@ -58,18 +61,17 @@ export function serializeSyntaxListNode(
         throw new Error('`parametersSyntaxListNodes` is null')
       }
       return {
-        data: {
-          keys: serializeSyntaxListNode(parametersSyntaxListNodes, null)
-        },
         description,
+        keys: serializeSyntaxListNode(parametersSyntaxListNodes, null),
         name,
+        optional,
         type: 'object'
       }
     }
     return {
-      data: null,
       description,
       name,
+      optional,
       type: typeNode.getText()
     }
   })

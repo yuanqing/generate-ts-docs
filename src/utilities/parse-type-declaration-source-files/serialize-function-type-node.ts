@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { FunctionData } from '../../types'
+import { Parameter } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { getNextSiblingNode } from './operations/get-sibling-node'
@@ -10,7 +10,7 @@ import { serializeSyntaxListNode } from './serialize-syntax-list-node'
 export function serializeFunctionTypeNode(
   node: ts.Node,
   parametersJsDoc: null | { [key: string]: string }
-): FunctionData {
+): { returnType: null | string; parameters: Array<Parameter> } {
   const returnTypeNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.EqualsGreaterThanToken),
     getNextSiblingNode()
@@ -23,7 +23,7 @@ export function serializeFunctionTypeNode(
   return {
     parameters:
       parametersSyntaxListNodes === null
-        ? null
+        ? []
         : serializeSyntaxListNode(parametersSyntaxListNodes, parametersJsDoc),
     returnType: returnTypeNode === null ? null : returnTypeNode.getText()
   }
