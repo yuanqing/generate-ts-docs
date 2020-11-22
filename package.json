@@ -24,7 +24,6 @@
     "watch": "yarn run clean && tsc --watch"
   },
   "dependencies": {
-    "globby": "^11.0.1",
     "typescript": "*"
   },
   "devDependencies": {

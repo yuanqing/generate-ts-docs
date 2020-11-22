@@ -4,7 +4,11 @@ export type DocEntry = {
   name: string
   type: string
   description: null | string
-  data: null | ObjectData | FunctionData
+  data: null | ConstantData | FunctionData | ObjectData
+}
+
+export type ConstantData = {
+  value: string
 }
 
 export type ObjectData = {

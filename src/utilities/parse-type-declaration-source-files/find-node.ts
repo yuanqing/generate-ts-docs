@@ -1,8 +1,8 @@
 import * as ts from 'typescript'
 
-import { Operation } from '../types'
+import { Operation } from '../../types'
 
-export function findNode(
+export function traverseNode(
   node: ts.Node,
   operations: Array<Operation>
 ): null | ts.Node {

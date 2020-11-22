@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { Operation } from '../../types'
+import { Operation } from '../../../types'
 
 export const getPreviousSiblingNode = getSiblingNodeFactory(-1)
 export const getNextSiblingNode = getSiblingNodeFactory(1)
