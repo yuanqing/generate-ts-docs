@@ -1,16 +1,16 @@
 import * as ts from 'typescript'
 
-import { FunctionTypeDocEntry, ObjectTypeDocEntry } from '../../../types'
+import { FunctionTypeData, ObjectTypeData } from '../../../types'
 import { traverseNode } from '../find-node'
 import { findFirstChildNodeOfKind } from '../operations/find-first-child-node-of-kind'
 import { serializeFunctionTypeNode } from './serialize-function-type-node'
 import { serializeTypeLiteralNode } from './serialize-type-literal-node'
 
 export function serializeTypeNode(
-  typeNode: ts.Node
-): Array<string | FunctionTypeDocEntry | ObjectTypeDocEntry> {
-  if (typeNode.kind === ts.SyntaxKind.UnionType) {
-    const syntaxListNode = traverseNode(typeNode, [
+  node: ts.Node
+): Array<string | FunctionTypeData | ObjectTypeData> {
+  if (node.kind === ts.SyntaxKind.UnionType) {
+    const syntaxListNode = traverseNode(node, [
       findFirstChildNodeOfKind(ts.SyntaxKind.SyntaxList)
     ])
     if (syntaxListNode === null) {
@@ -25,19 +25,19 @@ export function serializeTypeNode(
       return serializeTypeNodeHelper(typeNode)
     })
   }
-  return [serializeTypeNodeHelper(typeNode)]
+  return [serializeTypeNodeHelper(node)]
 }
 
 function serializeTypeNodeHelper(
-  typeNode: ts.Node
-): string | FunctionTypeDocEntry | ObjectTypeDocEntry {
-  if (typeNode.kind === ts.SyntaxKind.FunctionType) {
+  node: ts.Node
+): string | FunctionTypeData | ObjectTypeData {
+  if (node.kind === ts.SyntaxKind.FunctionType) {
     // function
-    return serializeFunctionTypeNode(typeNode, null)
+    return serializeFunctionTypeNode(node, null)
   }
-  if (typeNode.kind === ts.SyntaxKind.TypeLiteral) {
+  if (node.kind === ts.SyntaxKind.TypeLiteral) {
     // object
-    return serializeTypeLiteralNode(typeNode)
+    return serializeTypeLiteralNode(node)
   }
-  return typeNode.getText()
+  return node.getText()
 }

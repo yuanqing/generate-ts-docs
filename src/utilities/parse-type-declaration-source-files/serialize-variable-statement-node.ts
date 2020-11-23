@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { FunctionDocEntry } from '../../types'
+import { FunctionData } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import {
@@ -11,9 +11,7 @@ import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeFunctionTypeNode } from './serialize-type-node/serialize-function-type-node'
 
-export function serializeVariableStatementNode(
-  node: ts.Node
-): FunctionDocEntry {
+export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   const { description, parametersJsDoc } = parseJsDocComment(node)
   const variableDeclarationNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclarationList),

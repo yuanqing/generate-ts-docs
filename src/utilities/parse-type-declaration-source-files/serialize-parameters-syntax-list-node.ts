@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { ParameterDocEntry } from '../../types'
+import { ParameterData } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import {
@@ -13,7 +13,7 @@ import { serializeTypeNode } from './serialize-type-node/serialize-type-node'
 export function serializeParametersSyntaxListNode(
   node: ts.Node,
   parametersJsDoc: null | { [key: string]: string }
-): Array<ParameterDocEntry> {
+): Array<ParameterData> {
   const childNodes = node.getChildren().filter(function (node: ts.Node) {
     return (
       node.kind === ts.SyntaxKind.Parameter ||

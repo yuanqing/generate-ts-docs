@@ -13,6 +13,7 @@ export function generateTypeDeclarationSourceFiles(
   }> = []
   const host = ts.createCompilerHost(options)
   host.writeFile = function (filePath: string, fileContent: string): void {
+    // console.log(fileContent)
     typeDeclarationFiles.push({ fileContent, filePath })
   }
   const program = ts.createProgram(filePaths, options, host)

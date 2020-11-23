@@ -1,13 +1,13 @@
 import * as ts from 'typescript'
 
-import { FunctionDocEntry } from '../../types'
+import { FunctionData } from '../../types'
 import { serializeFunctionDeclarationNode } from './serialize-function-declaration-node'
 import { serializeVariableStatementNode } from './serialize-variable-statement-node'
 
 export function parseTypeDeclarationSourceFiles(
   sourceFiles: Array<ts.SourceFile>
-): Array<FunctionDocEntry> {
-  const result: Array<FunctionDocEntry> = []
+): Array<FunctionData> {
+  const result: Array<FunctionData> = []
   for (const sourceFile of sourceFiles) {
     sourceFile.forEachChild(function (node: ts.Node) {
       if (node.kind === ts.SyntaxKind.FunctionDeclaration) {
