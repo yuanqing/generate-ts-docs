@@ -5,24 +5,25 @@ export type Operation = (node: ts.Node) => null | ts.Node
 export type TypeData = Array<string | FunctionTypeData | ObjectTypeData>
 
 export type FunctionData = {
-  name: string
   description: null | string
-  returnType: null | TypeData
+  name: string
   parameters: Array<ParameterData>
+  returnType: null | TypeData
+  tags: null | { [key: string]: string }
 }
 export type ParameterData = {
-  name: string
   description: null | string
+  name: string
   optional: boolean
   type: TypeData
 }
 
 export interface FunctionTypeData {
-  type: 'function'
-  returnType: null | TypeData
   parameters: Array<ParameterData>
+  returnType: null | TypeData
+  type: 'function'
 }
 export interface ObjectTypeData {
-  type: 'object'
   keys: Array<ParameterData>
+  type: 'object'
 }

@@ -12,7 +12,7 @@ import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeFunctionTypeNode } from './serialize-type-node/serialize-function-type-node'
 
 export function serializeVariableStatementNode(node: ts.Node): FunctionData {
-  const { description, parametersJsDoc } = parseJsDocComment(node)
+  const { description, parametersJsDoc, tags } = parseJsDocComment(node)
   const variableDeclarationNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclarationList),
     findFirstChildNodeOfKind(ts.SyntaxKind.SyntaxList),
@@ -41,6 +41,7 @@ export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   return {
     description,
     name,
+    tags,
     ...serializeFunctionTypeNode(typeNode, parametersJsDoc)
   }
 }

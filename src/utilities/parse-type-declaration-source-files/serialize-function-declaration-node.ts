@@ -27,7 +27,7 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
     findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
     getNextSiblingNode()
   ])
-  const { description, parametersJsDoc } = parseJsDocComment(node)
+  const { description, parametersJsDoc, tags } = parseJsDocComment(node)
   return {
     description,
     name: functionIdentifierNode.getText(),
@@ -39,6 +39,7 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
             parametersJsDoc
           ),
     returnType:
-      returnTypeNode === null ? null : serializeTypeNode(returnTypeNode)
+      returnTypeNode === null ? null : serializeTypeNode(returnTypeNode),
+    tags
   }
 }
