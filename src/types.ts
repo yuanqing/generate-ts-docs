@@ -1,45 +1,26 @@
 import * as ts from 'typescript'
 
-export interface Base {
+export type FunctionDocEntry = {
   name: string
-  type: string
   description: null | string
-}
-
-export interface FunctionBase extends Base {
-  type: 'function'
   returnType: null | string
-  parameters: Array<Parameter>
+  parameters: Array<ParameterDocEntry>
 }
-
-export interface Parameter extends Base {
+export type ParameterDocEntry = {
+  name: string
+  description: null | string
   optional: boolean
+  type: Array<string | FunctionTypeDocEntry | ObjectTypeDocEntry>
 }
-export interface FunctionParameter extends Parameter {
+
+export interface FunctionTypeDocEntry {
   type: 'function'
   returnType: null | string
-  parameters: Array<Parameter>
+  parameters: Array<ParameterDocEntry>
 }
-export interface ObjectParameter extends Parameter {
+export interface ObjectTypeDocEntry {
   type: 'object'
-  keys: null | Array<Parameter>
+  keys: Array<ParameterDocEntry>
 }
 
 export type Operation = (node: ts.Node) => null | ts.Node
-
-// export type DocEntry = {
-//   name: string
-//   type: string
-//   description: null | string
-//   data: null | TypeData | FunctionTypeData | ObjectTypeData
-// }
-// export interface TypeData {
-//   optional?: boolean
-// }
-// export interface ObjectTypeData extends TypeData {
-//   keys: null | Array<DocEntry>
-// }
-// export interface FunctionTypeData extends TypeData {
-//   returnType: null | string
-//   parameters: null | Array<DocEntry>
-// }

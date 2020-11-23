@@ -1,14 +1,16 @@
 import * as ts from 'typescript'
 
-import { FunctionBase } from '../../types'
+import { FunctionDocEntry } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { getNextSiblingNode } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
-import { serializeSyntaxListNode } from './serialize-syntax-list-node'
+import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
 
-export function serializeFunctionDeclarationNode(node: ts.Node): FunctionBase {
+export function serializeFunctionDeclarationNode(
+  node: ts.Node
+): FunctionDocEntry {
   const functionIdentifierNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
     getNextSiblingNode(),
@@ -33,8 +35,10 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionBase {
     parameters:
       parametersSyntaxListNode === null
         ? []
-        : serializeSyntaxListNode(parametersSyntaxListNode, parametersJsDoc),
-    returnType: returnTypeNode === null ? null : returnTypeNode.getText(),
-    type: 'function'
+        : serializeParametersSyntaxListNode(
+            parametersSyntaxListNode,
+            parametersJsDoc
+          ),
+    returnType: returnTypeNode === null ? null : returnTypeNode.getText()
   }
 }

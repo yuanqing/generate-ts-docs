@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { Parameter } from '../../types'
+import { ParameterDocEntry } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import {
@@ -8,12 +8,12 @@ import {
   getPreviousSiblingNode
 } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
-import { serializeFunctionTypeNode } from './serialize-function-type-node'
+import { serializeTypeNode } from './serialize-type-node/serialize-type-node'
 
-export function serializeSyntaxListNode(
+export function serializeParametersSyntaxListNode(
   node: ts.Node,
   parametersJsDoc: null | { [key: string]: string }
-): Array<Parameter> {
+): Array<ParameterDocEntry> {
   const childNodes = node.getChildren().filter(function (node: ts.Node) {
     return (
       node.kind === ts.SyntaxKind.Parameter ||
@@ -30,7 +30,7 @@ export function serializeSyntaxListNode(
       getPreviousSiblingNode(),
       isKind(ts.SyntaxKind.QuestionToken)
     ])
-    const optional = questionTokenNode === null
+    const optional = questionTokenNode !== null
     const name = identifierNode.getText()
     const description = parametersJsDoc === null ? null : parametersJsDoc[name]
     const typeNode = traverseNode(childNode, [
@@ -40,39 +40,11 @@ export function serializeSyntaxListNode(
     if (typeNode === null) {
       throw new Error('`typeNode` is null')
     }
-    if (typeNode.kind === ts.SyntaxKind.FunctionType) {
-      // function
-      return {
-        description,
-        name,
-        optional,
-        type: 'function',
-        ...serializeFunctionTypeNode(typeNode, null)
-      }
-    }
-    if (typeNode.kind === ts.SyntaxKind.TypeLiteral) {
-      // object
-      const parametersSyntaxListNodes = traverseNode(typeNode, [
-        findFirstChildNodeOfKind(ts.SyntaxKind.OpenBraceToken),
-        getNextSiblingNode(),
-        isKind(ts.SyntaxKind.SyntaxList)
-      ])
-      if (parametersSyntaxListNodes === null) {
-        throw new Error('`parametersSyntaxListNodes` is null')
-      }
-      return {
-        description,
-        keys: serializeSyntaxListNode(parametersSyntaxListNodes, null),
-        name,
-        optional,
-        type: 'object'
-      }
-    }
     return {
       description,
       name,
       optional,
-      type: typeNode.getText()
+      type: serializeTypeNode(typeNode)
     }
   })
 }
