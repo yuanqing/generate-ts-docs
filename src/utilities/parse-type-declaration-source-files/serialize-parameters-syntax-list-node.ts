@@ -8,7 +8,7 @@ import {
   getPreviousSiblingNode
 } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
-import { serializeTypeNode } from './serialize-type-node/serialize-type-node'
+import { serializeTypeNode } from './serialize-type-node'
 
 export function serializeParametersSyntaxListNode(
   node: ts.Node,
@@ -41,10 +41,29 @@ export function serializeParametersSyntaxListNode(
       throw new Error('`typeNode` is null')
     }
     return {
-      description,
+      description: typeof description === 'undefined' ? null : description,
       name,
       optional,
-      type: serializeTypeNode(typeNode)
+      type: serializeTypeNode(
+        typeNode,
+        parametersJsDoc === null
+          ? null
+          : transformParametersJsDoc(parametersJsDoc, `${name}.`)
+      )
     }
   })
+}
+
+// pass in the relevant subset of items in `parametersJsDoc`
+function transformParametersJsDoc(
+  parametersJsDoc: { [key: string]: string },
+  prefix: string
+) {
+  const result: { [key: string]: string } = {}
+  for (const key in parametersJsDoc) {
+    if (key.indexOf(prefix) === 0) {
+      result[key.slice(prefix.length)] = parametersJsDoc[key]
+    }
+  }
+  return result
 }

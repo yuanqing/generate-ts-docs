@@ -9,7 +9,7 @@ import {
 } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
-import { serializeFunctionTypeNode } from './serialize-type-node/serialize-function-type-node'
+import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
 
 export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   const { description, parametersJsDoc, tags } = parseJsDocComment(node)
@@ -38,10 +38,29 @@ export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   if (typeNode === null) {
     throw new Error('`typeNode` is null')
   }
+  const returnTypeNode = traverseNode(node, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.EqualsGreaterThanToken),
+    getNextSiblingNode()
+  ])
+  if (returnTypeNode === null) {
+    throw new Error('`returnTypeNode` is null')
+  }
+  const parametersSyntaxListNodes = traverseNode(node, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.SyntaxList)
+  ])
   return {
     description,
     name,
-    tags,
-    ...serializeFunctionTypeNode(typeNode, parametersJsDoc)
+    parameters:
+      parametersSyntaxListNodes === null
+        ? []
+        : serializeParametersSyntaxListNode(
+            parametersSyntaxListNodes,
+            parametersJsDoc
+          ),
+    returnType: returnTypeNode.getText(),
+    tags
   }
 }

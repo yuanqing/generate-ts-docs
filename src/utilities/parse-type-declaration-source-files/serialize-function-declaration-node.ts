@@ -7,7 +7,6 @@ import { getNextSiblingNode } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
-import { serializeTypeNode } from './serialize-type-node/serialize-type-node'
 
 export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
   const functionIdentifierNode = traverseNode(node, [
@@ -27,10 +26,14 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
     findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
     getNextSiblingNode()
   ])
+  if (returnTypeNode === null) {
+    throw new Error('`returnTypeNode` is null')
+  }
   const { description, parametersJsDoc, tags } = parseJsDocComment(node)
+  const name = functionIdentifierNode.getText()
   return {
     description,
-    name: functionIdentifierNode.getText(),
+    name,
     parameters:
       parametersSyntaxListNode === null
         ? []
@@ -38,8 +41,7 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
             parametersSyntaxListNode,
             parametersJsDoc
           ),
-    returnType:
-      returnTypeNode === null ? null : serializeTypeNode(returnTypeNode),
+    returnType: returnTypeNode.getText(),
     tags
   }
 }
