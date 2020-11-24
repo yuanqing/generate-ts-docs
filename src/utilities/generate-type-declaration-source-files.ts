@@ -16,7 +16,12 @@ export function generateTypeDeclarationSourceFiles(
     typeDeclarationFiles.push({ fileContent, filePath })
   }
   const program = ts.createProgram(filePaths, options, host)
-  program.emit()
+  const emitResult = program.emit()
+  if (emitResult.diagnostics.length > 0) {
+    throw new Error(
+      ts.formatDiagnosticsWithColorAndContext(emitResult.diagnostics, host)
+    )
+  }
   for (const filePath of filePaths) {
     host.readFile(filePath)
   }
