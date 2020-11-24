@@ -5,9 +5,18 @@ import { generateTypeDeclarationSourceFiles } from './utilities/generate-type-de
 import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declaration-source-files/parse-type-declaration-source-files'
 
 export async function generateTypeScriptDocs(
-  globs: Array<string>
+  globs: Array<string>,
+  options?: {
+    tsconfigFilePath: string
+  }
 ): Promise<Array<FunctionData>> {
   const filePaths = await globby(globs)
-  const sourceFiles = generateTypeDeclarationSourceFiles(filePaths)
+  const sourceFiles = generateTypeDeclarationSourceFiles(
+    filePaths,
+    typeof options === 'undefined' ||
+      typeof options.tsconfigFilePath === 'undefined'
+      ? null
+      : options.tsconfigFilePath
+  )
   return parseTypeDeclarationSourceFiles(sourceFiles)
 }

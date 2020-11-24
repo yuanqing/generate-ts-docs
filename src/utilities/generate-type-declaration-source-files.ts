@@ -1,12 +1,12 @@
+import * as fs from 'fs'
+import * as path from 'path'
 import * as ts from 'typescript'
 
 export function generateTypeDeclarationSourceFiles(
-  filePaths: Array<string>
+  filePaths: Array<string>,
+  tsconfigFilePath: null | string
 ): Array<ts.SourceFile> {
-  const options = {
-    declaration: true,
-    emitDeclarationOnly: true
-  }
+  const options = resolveCompilerOptions(tsconfigFilePath)
   const typeDeclarationFiles: Array<{
     fileContent: string
     filePath: string
@@ -32,4 +32,51 @@ export function generateTypeDeclarationSourceFiles(
     )
   }
   return result
+}
+
+function resolveCompilerOptions(
+  tsconfigFilePath: null | string
+): ts.CompilerOptions {
+  const options = {
+    declaration: true,
+    emitDeclarationOnly: true,
+    removeComments: false
+  }
+  if (tsconfigFilePath === null) {
+    const defaultTsConfigFilePath = path.join(process.cwd(), 'tsconfig.json')
+    if (fs.existsSync(defaultTsConfigFilePath) === false) {
+      return options
+    }
+    return {
+      ...readTsConfigCompilerOptions(defaultTsConfigFilePath),
+      ...options
+    }
+  }
+  if (fs.existsSync(tsconfigFilePath) === false) {
+    throw new Error(`tsconfig not found at ${tsconfigFilePath}`)
+  }
+  return {
+    ...readTsConfigCompilerOptions(tsconfigFilePath),
+    ...options
+  }
+}
+
+function readTsConfigCompilerOptions(
+  tsconfigFilePath: string
+): ts.CompilerOptions {
+  const tsConfig = ts.parseConfigFileTextToJson(
+    tsconfigFilePath,
+    fs.readFileSync(tsconfigFilePath, 'utf8')
+  )
+  if (tsConfig.error) {
+    throw tsConfig.error
+  }
+  const { errors, options } = ts.convertCompilerOptionsFromJson(
+    tsConfig.config.compilerOptions,
+    path.dirname(tsconfigFilePath)
+  )
+  if (errors.length > 0) {
+    throw errors
+  }
+  return options
 }
