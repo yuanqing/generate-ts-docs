@@ -1,2 +1,5 @@
 export * from './generate-typescript-docs'
-export * from './stringify-to-markdown'
+export * from './group-functions-data-by-category'
+export * from './stringify-category-to-markdown'
+export * from './stringify-function-data-to-markdown'
+export * from './types'

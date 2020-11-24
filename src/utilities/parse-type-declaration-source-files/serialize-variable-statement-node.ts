@@ -53,7 +53,7 @@ export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   return {
     description,
     name,
-    parameters:
+    parametersData:
       parametersSyntaxListNodes === null
         ? []
         : serializeParametersSyntaxListNode(

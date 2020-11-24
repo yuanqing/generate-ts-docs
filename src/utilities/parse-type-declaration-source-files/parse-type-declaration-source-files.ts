@@ -19,5 +19,7 @@ export function parseTypeDeclarationSourceFiles(
       }
     })
   }
-  return result
+  return result.sort(function (a, b) {
+    return a.name.localeCompare(b.name)
+  })
 }

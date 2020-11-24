@@ -34,7 +34,7 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
   return {
     description,
     name,
-    parameters:
+    parametersData:
       parametersSyntaxListNode === null
         ? []
         : serializeParametersSyntaxListNode(

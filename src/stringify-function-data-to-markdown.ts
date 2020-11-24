@@ -1,47 +1,41 @@
-import { FunctionData, ParameterData } from './types'
+import { FunctionData, Options, ParameterData } from './types'
 
 const indentSize = 4
 
-export function stringifyToMarkdown(
-  functionsData: Array<FunctionData>,
-  options: {
-    headerLevel: 1 | 2 | 3 | 4 | 5
-  } = { headerLevel: 1 }
+export function stringifyFunctionDataToMarkdown(
+  functionData: FunctionData,
+  options: Options = { headerLevel: 3 }
 ): string {
   const { headerLevel } = options
-  const lines: Array<string> = []
-  for (const {
+  const {
     description,
     name,
-    parameters: parametersData,
+    parametersData: parametersData,
     returnType
-  } of functionsData) {
-    lines.push(
-      `${'#'.repeat(headerLevel)} ${stringifyFunctionName(
-        name,
-        parametersData
-      )}`
-    )
+  } = functionData
+  const lines: Array<string> = []
+  lines.push(
+    `${'#'.repeat(headerLevel)} ${stringifyFunctionName(name, parametersData)}`
+  )
+  lines.push('')
+  if (description !== null) {
+    lines.push(`${description}`)
     lines.push('')
-    if (description !== null) {
-      lines.push(`${description}`)
-      lines.push('')
+  }
+  if (parametersData.length > 0) {
+    lines.push(`${'#'.repeat(headerLevel + 1)} *Parameters*`)
+    lines.push('')
+    for (const parameterData of parametersData) {
+      lines.push(stringifyParameter(parameterData, 0))
     }
-    if (parametersData.length > 0) {
-      lines.push(`${'#'.repeat(headerLevel + 1)} *Parameters*`)
-      lines.push('')
-      for (const parameterData of parametersData) {
-        lines.push(stringifyParameter(parameterData, 0))
-      }
-      lines.push('')
-    }
-    if (returnType !== null) {
-      lines.push(`${'#'.repeat(headerLevel + 1)} *Return type*`)
-      lines.push('')
-      lines.push('```')
-      lines.push(returnType)
-      lines.push('```')
-    }
+    lines.push('')
+  }
+  if (returnType !== null) {
+    lines.push(`${'#'.repeat(headerLevel + 1)} *Return type*`)
+    lines.push('')
+    lines.push('```')
+    lines.push(returnType)
+    lines.push('```')
   }
   return lines.join('\n')
 }
