@@ -21,17 +21,13 @@ export function serializeParametersSyntaxListNode(
     )
   })
   return childNodes.map(function (childNode: ts.Node) {
-    const identifierNode = childNode.getChildAt(0)
-    if (typeof identifierNode === 'undefined') {
-      throw new Error('`identifierNode` is undefined')
-    }
     const questionTokenNode = traverseNode(childNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
       getPreviousSiblingNode(),
       isKind(ts.SyntaxKind.QuestionToken)
     ])
     const optional = questionTokenNode !== null
-    const name = identifierNode.getText()
+    const name = parseIdentifierName(childNode)
     const description = parametersJsDoc === null ? null : parametersJsDoc[name]
     const typeNode = traverseNode(childNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
@@ -52,6 +48,17 @@ export function serializeParametersSyntaxListNode(
       )
     }
   })
+}
+
+function parseIdentifierName(node: ts.Node): string {
+  const result: Array<string> = []
+  for (const childNode of node.getChildren()) {
+    result.push(childNode.getText())
+    if (childNode.kind === ts.SyntaxKind.Identifier) {
+      break
+    }
+  }
+  return result.join('')
 }
 
 // pass in the relevant subset of items in `parametersJsDoc`
