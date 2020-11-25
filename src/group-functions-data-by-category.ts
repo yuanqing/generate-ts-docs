@@ -1,8 +1,17 @@
-import { Category, FunctionData } from './types'
+import { FunctionData } from './types'
 
+/**
+ * Groups each object in `functionsData` by the value of each function’s
+ * `tags.category` key.
+ *
+ * @param functionsData  Function data to be grouped.
+ */
 export function groupFunctionsDataByCategory(
   functionsData: Array<FunctionData>
-): Array<Category> {
+): Array<{
+  name: string
+  functionsData: Array<FunctionData>
+}> {
   const result: { [name: string]: Array<FunctionData> } = {}
   for (const functionData of functionsData) {
     if (

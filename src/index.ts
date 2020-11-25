@@ -1,5 +1,5 @@
-export * from './generate-typescript-docs-async'
 export * from './group-functions-data-by-category'
+export * from './parse-exported-functions-async'
 export * from './stringify-category-to-markdown'
 export * from './stringify-function-data-to-markdown'
 export * from './types'

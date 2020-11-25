@@ -1,7 +1,11 @@
 import { FunctionData, ParameterData } from './types'
 
-const indentSize = 4
+const indentSize = 2
 
+/**
+ * @param options.headerLevel  Header level to be used for rendering the
+ * function name.
+ */
 export function stringifyFunctionDataToMarkdown(
   functionData: FunctionData,
   options?: { headerLevel: number }

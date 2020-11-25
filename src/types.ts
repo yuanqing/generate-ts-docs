@@ -2,11 +2,6 @@ import * as ts from 'typescript'
 
 export type Operation = (node: ts.Node) => null | ts.Node
 
-export type Category = {
-  name: string
-  functionsData: Array<FunctionData>
-}
-
 export type FunctionData = {
   description: null | string
   name: string

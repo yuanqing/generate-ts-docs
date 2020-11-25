@@ -2,6 +2,7 @@ import * as ts from 'typescript'
 
 import { FunctionData } from '../../types'
 import { traverseNode } from './find-node'
+import { normalizeReturnTypeText } from './normalize-return-type-text'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { getNextSiblingNode } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
@@ -47,7 +48,7 @@ export function serializeFunctionDeclarationNode(
             parametersSyntaxListNode,
             parametersJsDoc
           ),
-    returnType: returnTypeNode.getText(),
+    returnType: normalizeReturnTypeText(returnTypeNode.getText()),
     tags
   }
 }
