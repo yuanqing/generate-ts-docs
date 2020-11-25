@@ -11,8 +11,14 @@ import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
 
-export function serializeVariableStatementNode(node: ts.Node): FunctionData {
-  const { description, parametersJsDoc, tags } = parseJsDocComment(node)
+export function serializeVariableStatementNode(
+  node: ts.Node
+): null | FunctionData {
+  const jsDocComment = parseJsDocComment(node)
+  if (jsDocComment === null) {
+    return null
+  }
+  const { description, parametersJsDoc, tags } = jsDocComment
   const variableDeclarationNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclarationList),
     findFirstChildNodeOfKind(ts.SyntaxKind.SyntaxList),
@@ -38,7 +44,7 @@ export function serializeVariableStatementNode(node: ts.Node): FunctionData {
   if (typeNode === null) {
     throw new Error('`typeNode` is null')
   }
-  const returnTypeNode = traverseNode(node, [
+  const returnTypeNode = traverseNode(typeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.EqualsGreaterThanToken),
     getNextSiblingNode()
   ])

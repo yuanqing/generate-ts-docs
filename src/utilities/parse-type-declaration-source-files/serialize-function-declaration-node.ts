@@ -8,7 +8,14 @@ import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
 
-export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
+export function serializeFunctionDeclarationNode(
+  node: ts.Node
+): null | FunctionData {
+  const jsDocComment = parseJsDocComment(node)
+  if (jsDocComment === null) {
+    return null
+  }
+  const { description, parametersJsDoc, tags } = jsDocComment
   const functionIdentifierNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
     getNextSiblingNode(),
@@ -29,7 +36,6 @@ export function serializeFunctionDeclarationNode(node: ts.Node): FunctionData {
   if (returnTypeNode === null) {
     throw new Error('`returnTypeNode` is null')
   }
-  const { description, parametersJsDoc, tags } = parseJsDocComment(node)
   const name = functionIdentifierNode.getText()
   return {
     description,

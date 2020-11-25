@@ -14,6 +14,11 @@ export function groupFunctionsDataByCategory(
       )
     }
     const name = functionData.tags.category
+    if (name === null) {
+      throw new Error(
+        `Category not defined for function \`${functionData.name}\``
+      )
+    }
     if (typeof result[name] === 'undefined') {
       result[name] = []
     }

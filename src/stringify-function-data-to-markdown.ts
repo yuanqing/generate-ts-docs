@@ -1,12 +1,12 @@
-import { FunctionData, Options, ParameterData } from './types'
+import { FunctionData, ParameterData } from './types'
 
 const indentSize = 4
 
 export function stringifyFunctionDataToMarkdown(
   functionData: FunctionData,
-  options: Options = { headerLevel: 3 }
+  options?: { headerLevel: number }
 ): string {
-  const { headerLevel } = options
+  const headerLevel = typeof options === 'undefined' ? 3 : options.headerLevel
   const {
     description,
     name,
@@ -36,6 +36,7 @@ export function stringifyFunctionDataToMarkdown(
     lines.push('```')
     lines.push(returnType)
     lines.push('```')
+    lines.push('')
   }
   return lines.join('\n')
 }

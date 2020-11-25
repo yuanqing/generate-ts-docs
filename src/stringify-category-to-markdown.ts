@@ -1,11 +1,11 @@
 import { stringifyFunctionDataToMarkdown } from './stringify-function-data-to-markdown'
-import { Category, Options } from './types'
+import { Category } from './types'
 
 export function stringifyCategoryToMarkdown(
   category: Category,
-  options: Options = { headerLevel: 2 }
+  options?: { headerLevel: number }
 ): string {
-  const { headerLevel } = options
+  const headerLevel = typeof options === 'undefined' ? 2 : options.headerLevel
   const lines: Array<string> = []
   lines.push(`${'#'.repeat(headerLevel)} ${category.name}`)
   lines.push('')

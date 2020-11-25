@@ -13,7 +13,13 @@ export function generateTypeDeclarationSourceFiles(
   }> = []
   const host = ts.createCompilerHost(options)
   host.writeFile = function (filePath: string, fileContent: string): void {
-    typeDeclarationFiles.push({ fileContent, filePath })
+    const filePathWithTsExtension = filePath.replace(/\.d\.ts$/, '.ts')
+    if (filePaths.indexOf(filePathWithTsExtension) !== -1) {
+      typeDeclarationFiles.push({
+        fileContent,
+        filePath: filePathWithTsExtension
+      })
+    }
   }
   const program = ts.createProgram(filePaths, options, host)
   const emitResult = program.emit()
@@ -39,7 +45,9 @@ function resolveCompilerOptions(
 ): ts.CompilerOptions {
   const options = {
     declaration: true,
+    declarationMap: false,
     emitDeclarationOnly: true,
+    outDir: undefined,
     removeComments: false
   }
   if (tsconfigFilePath === null) {
@@ -53,7 +61,7 @@ function resolveCompilerOptions(
     }
   }
   if (fs.existsSync(tsconfigFilePath) === false) {
-    throw new Error(`tsconfig not found at ${tsconfigFilePath}`)
+    throw new Error(`Configuration file not found at ${tsconfigFilePath}`)
   }
   return {
     ...readTsConfigCompilerOptions(tsconfigFilePath),
