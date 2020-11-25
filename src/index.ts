@@ -1,4 +1,4 @@
-export * from './generate-typescript-docs'
+export * from './generate-typescript-docs-async'
 export * from './group-functions-data-by-category'
 export * from './stringify-category-to-markdown'
 export * from './stringify-function-data-to-markdown'

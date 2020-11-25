@@ -3,7 +3,7 @@
 ## API
 
 <!-- markdown-interpolate: ts-node scripts/generate-typescript-docs.ts -->
-### generateTypeScriptDocs(globs [, options])
+### generateTypeScriptDocsAsync(globs [, options])
 
 Parses and generates documentation for the given `globs` of TypeScript source files.
 

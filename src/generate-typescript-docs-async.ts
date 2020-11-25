@@ -12,7 +12,7 @@ import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declarat
  * @param options.tsconfigFilePath  Path to a `tsconfig.json` file. Defaults
  * to './tsconfig.json'.
  */
-export async function generateTypeScriptDocs(
+export async function generateTypeScriptDocsAsync(
   globs: Array<string>,
   options?: {
     tsconfigFilePath: string
