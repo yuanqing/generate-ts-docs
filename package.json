@@ -1,6 +1,6 @@
 {
   "name": "generate-ts-docs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Utilities to parse exported functions from TypeScript source files and generate Markdown documentation",
   "keywords": [],
   "author": "Yuan Qing Lim",
