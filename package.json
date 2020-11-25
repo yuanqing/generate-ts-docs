@@ -1,13 +1,13 @@
 {
-  "name": "generate-typescript-docs",
+  "name": "generate-ts-docs",
   "version": "0.0.0",
-  "description": "",
+  "description": "Utilities to parse exported functions from TypeScript source files and generate Markdown documentation",
   "keywords": [],
   "author": "Yuan Qing Lim",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/yuanqing/generate-typescript-docs.git"
+    "url": "git://github.com/yuanqing/generate-ts-docs.git"
   },
   "main": "lib/index.js",
   "files": [
