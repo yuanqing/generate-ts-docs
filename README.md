@@ -4,7 +4,7 @@
 
 ## API
 
-The API documentation below is generated using [the following script](/scripts/generate-ts-docs.ts):
+The API documentation below is generated using the [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts) file in this repository:
 
 <!-- ```ts markdown-interpolate: cat scripts/generate-ts-docs.ts -->
 ```ts
