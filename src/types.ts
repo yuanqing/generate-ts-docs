@@ -5,7 +5,7 @@ export type Operation = (node: ts.Node) => null | ts.Node
 export type FunctionData = {
   description: null | string
   name: string
-  parametersData: Array<ParameterData>
+  parameters: Array<ParameterData>
   returnType: null | ReturnTypeData
   tags: null | ParametersJsDocData
 }

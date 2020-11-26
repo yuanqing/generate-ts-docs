@@ -13,7 +13,12 @@ export function stringifyFunctionDataToMarkdown(
   options?: { headerLevel: number }
 ): string {
   const headerLevel = typeof options === 'undefined' ? 3 : options.headerLevel
-  const { description, name, parametersData, returnType } = functionData
+  const {
+    description,
+    name,
+    parameters: parametersData,
+    returnType
+  } = functionData
   const lines: Array<string> = []
   lines.push(
     `${'#'.repeat(headerLevel)} ${createFunctionTitle(name, parametersData)}`
@@ -35,7 +40,6 @@ export function stringifyFunctionDataToMarkdown(
     lines.push(`${'#'.repeat(headerLevel + 1)} *Return type*`)
     lines.push('')
     if (returnType.description !== null) {
-      lines.push('')
       lines.push(returnType.description)
       lines.push('')
     }

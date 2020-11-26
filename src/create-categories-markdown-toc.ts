@@ -4,9 +4,10 @@ import GithubSlugger = require('github-slugger')
 import { createFunctionTitle } from './utilities/create-function-title'
 
 /**
- * Generate a Markdown table of contents (TOC) for the given `categories`.
+ * Generate a Markdown table of contents for the given `categories`.
  *
  * @category Markdown utilities
+ * @return Description for return type!!!!
  */
 export function createCategoriesMarkdownToc(
   categories: Array<{
@@ -18,7 +19,7 @@ export function createCategoriesMarkdownToc(
   const lines = []
   for (const { name, functionsData } of categories) {
     lines.push(`- [**${name}**](${githubSlugger.slug(name)})`)
-    for (const { name, parametersData } of functionsData) {
+    for (const { name, parameters: parametersData } of functionsData) {
       const functionName = createFunctionTitle(name, parametersData)
       lines.push(`  - [${functionName}](${githubSlugger.slug(functionName)})`)
     }

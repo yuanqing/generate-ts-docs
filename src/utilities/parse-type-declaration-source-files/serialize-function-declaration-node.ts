@@ -16,7 +16,6 @@ export function serializeFunctionDeclarationNode(
   if (jsDocComment === null) {
     return null
   }
-  const { description, parametersJsDoc, tags } = jsDocComment
   const functionIdentifierNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
     getNextSiblingNode(),
@@ -39,19 +38,19 @@ export function serializeFunctionDeclarationNode(
   }
   const name = functionIdentifierNode.getText()
   return {
-    description,
+    description: jsDocComment.description,
     name,
-    parametersData:
+    parameters:
       parametersSyntaxListNode === null
         ? []
         : serializeParametersSyntaxListNode(
             parametersSyntaxListNode,
-            parametersJsDoc
+            jsDocComment.parameters
           ),
     returnType: {
-      description: null, // FIXME
+      description: jsDocComment.returnType,
       type: normalizeReturnTypeText(returnTypeNode.getText())
     },
-    tags
+    tags: jsDocComment.tags
   }
 }

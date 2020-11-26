@@ -19,7 +19,6 @@ export function serializeVariableStatementNode(
   if (jsDocComment === null) {
     return null
   }
-  const { description, parametersJsDoc, tags } = jsDocComment
   const variableDeclarationNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclarationList),
     findFirstChildNodeOfKind(ts.SyntaxKind.SyntaxList),
@@ -58,19 +57,19 @@ export function serializeVariableStatementNode(
     isKind(ts.SyntaxKind.SyntaxList)
   ])
   return {
-    description,
+    description: jsDocComment.description,
     name,
-    parametersData:
+    parameters:
       parametersSyntaxListNodes === null
         ? []
         : serializeParametersSyntaxListNode(
             parametersSyntaxListNodes,
-            parametersJsDoc
+            jsDocComment.parameters
           ),
     returnType: {
-      description: null, // FIXME
+      description: jsDocComment.returnType,
       type: normalizeReturnTypeText(returnTypeNode.getText())
     },
-    tags
+    tags: jsDocComment.tags
   }
 }

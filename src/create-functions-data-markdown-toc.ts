@@ -4,7 +4,7 @@ import GithubSlugger = require('github-slugger')
 import { createFunctionTitle } from './utilities/create-function-title'
 
 /**
- * Generate a Markdown table of contents (TOC) for the given `functionsData`.
+ * Generate a Markdown table of contents for the given `functionsData`.
  *
  * @category Markdown utilities
  */
@@ -13,7 +13,7 @@ export function createFunctionsDataMarkdownToc(
 ): string {
   const githubSlugger = new GithubSlugger()
   const lines = []
-  for (const { name, parametersData } of functionsData) {
+  for (const { name, parameters: parametersData } of functionsData) {
     const functionName = createFunctionTitle(name, parametersData)
     lines.push(`- [${functionName}](${githubSlugger.slug(functionName)})`)
   }

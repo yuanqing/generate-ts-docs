@@ -8,7 +8,8 @@ export function parseJsDocComment(
   node: ts.Node
 ): null | {
   description: null | string
-  parametersJsDoc: null | ParametersJsDocData
+  parameters: null | ParametersJsDocData
+  returnType: null | string
   tags: null | ParametersJsDocData
 } {
   const jsDocCommentNode = traverseNode(node, [
@@ -17,37 +18,64 @@ export function parseJsDocComment(
   if (jsDocCommentNode === null) {
     return {
       description: null,
-      parametersJsDoc: null,
+      parameters: null,
+      returnType: null,
       tags: null
     }
   }
-  const comment = (jsDocCommentNode as ts.JSDoc).comment
-  const description =
-    typeof comment === 'undefined' ? null : normalizeText(comment)
-  const jsDocTagNodes = jsDocCommentNode
-    .getChildren()
-    .filter(function (node: ts.Node) {
-      return node.kind === ts.SyntaxKind.JSDocTag
-    })
-  const tags =
-    jsDocTagNodes.length === 0 ? null : parseJsDocTagNodes(jsDocTagNodes, 0)
-  if (tags !== null && Object.keys(tags).indexOf('ignore') !== -1) {
-    // has ignore tag
+  const tags = parseTags(jsDocCommentNode)
+  if (tags !== null && typeof tags.ignore !== 'undefined') {
+    // has `@ignore` tag, so return null
     return null
   }
-  const jsDocParameterTagNodes = jsDocCommentNode
+  const description = (jsDocCommentNode as ts.JSDoc).comment
+  const returnType = parseReturnTypeDescription(jsDocCommentNode)
+  const parameters = parseParameterDescriptions(jsDocCommentNode)
+  return {
+    description:
+      typeof description === 'undefined' ? null : normalizeText(description),
+    parameters,
+    returnType:
+      typeof returnType === 'undefined' || returnType === null
+        ? null
+        : returnType,
+    tags
+  }
+}
+
+function parseReturnTypeDescription(node: ts.Node): null | string {
+  const jsDocReturnTagNode = traverseNode(node, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.JSDocReturnTag)
+  ])
+  if (jsDocReturnTagNode === null) {
+    return null
+  }
+  const returnTypeDescription = (jsDocReturnTagNode as ts.JSDocReturnTag)
+    .comment
+  if (typeof returnTypeDescription === 'undefined') {
+    return null
+  }
+  return returnTypeDescription
+}
+
+function parseParameterDescriptions(node: ts.Node): null | ParametersJsDocData {
+  const jsDocParameterTagNodes = node
     .getChildren()
     .filter(function (node: ts.Node) {
       return node.kind === ts.SyntaxKind.JSDocParameterTag
     })
-  return {
-    description,
-    parametersJsDoc:
-      jsDocParameterTagNodes.length === 0
-        ? null
-        : parseJsDocTagNodes(jsDocParameterTagNodes, 1),
-    tags
-  }
+  return jsDocParameterTagNodes.length === 0
+    ? null
+    : parseJsDocTagNodes(jsDocParameterTagNodes, 1)
+}
+
+function parseTags(node: ts.Node): null | ParametersJsDocData {
+  const jsDocTagNodes = node.getChildren().filter(function (node: ts.Node) {
+    return node.kind === ts.SyntaxKind.JSDocTag
+  })
+  return jsDocTagNodes.length === 0
+    ? null
+    : parseJsDocTagNodes(jsDocTagNodes, 0)
 }
 
 function parseJsDocTagNodes(
