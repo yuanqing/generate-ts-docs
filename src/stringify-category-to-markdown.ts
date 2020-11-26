@@ -25,5 +25,5 @@ export function stringifyCategoryToMarkdown(
       })
     )
   }
-  return lines.join('\n')
+  return lines.join('\n').trim()
 }

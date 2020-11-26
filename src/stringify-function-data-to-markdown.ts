@@ -48,7 +48,7 @@ export function stringifyFunctionDataToMarkdown(
     lines.push('```')
     lines.push('')
   }
-  return lines.join('\n')
+  return lines.join('\n').trim()
 }
 
 function stringifyParameter(parameterData: ParameterData, indent: number) {
