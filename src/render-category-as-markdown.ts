@@ -1,4 +1,4 @@
-import { stringifyFunctionDataToMarkdown } from './stringify-function-data-to-markdown'
+import { renderFunctionDataAsMarkdown } from './render-function-data-as-markdown'
 import { FunctionData } from './types'
 
 /**
@@ -6,7 +6,7 @@ import { FunctionData } from './types'
  * category name.
  * @category Markdown utilities
  */
-export function stringifyCategoryToMarkdown(
+export function renderCategoryAsMarkdown(
   category: {
     name: string
     functionsData: Array<FunctionData>
@@ -20,7 +20,7 @@ export function stringifyCategoryToMarkdown(
   const functionHeaderLevel = headerLevel + 1
   for (const functionData of category.functionsData) {
     lines.push(
-      stringifyFunctionDataToMarkdown(functionData, {
+      renderFunctionDataAsMarkdown(functionData, {
         headerLevel: functionHeaderLevel
       })
     )

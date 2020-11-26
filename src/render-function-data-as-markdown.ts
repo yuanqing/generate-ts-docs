@@ -8,7 +8,7 @@ const indentSize = 2
  * function name.
  * @category Markdown utilities
  */
-export function stringifyFunctionDataToMarkdown(
+export function renderFunctionDataAsMarkdown(
   functionData: FunctionData,
   options?: { headerLevel: number }
 ): string {
