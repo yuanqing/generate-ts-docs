@@ -1,25 +1,22 @@
 import { FunctionData, ParameterData } from './types'
+import { createFunctionTitle } from './utilities/create-function-title'
 
 const indentSize = 2
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the
  * function name.
+ * @category Markdown utilities
  */
 export function stringifyFunctionDataToMarkdown(
   functionData: FunctionData,
   options?: { headerLevel: number }
 ): string {
   const headerLevel = typeof options === 'undefined' ? 3 : options.headerLevel
-  const {
-    description,
-    name,
-    parametersData: parametersData,
-    returnType
-  } = functionData
+  const { description, name, parametersData, returnType } = functionData
   const lines: Array<string> = []
   lines.push(
-    `${'#'.repeat(headerLevel)} ${stringifyFunctionName(name, parametersData)}`
+    `${'#'.repeat(headerLevel)} ${createFunctionTitle(name, parametersData)}`
   )
   lines.push('')
   if (description !== null) {
@@ -37,34 +34,17 @@ export function stringifyFunctionDataToMarkdown(
   if (returnType !== null) {
     lines.push(`${'#'.repeat(headerLevel + 1)} *Return type*`)
     lines.push('')
+    if (returnType.description !== null) {
+      lines.push('')
+      lines.push(returnType.description)
+      lines.push('')
+    }
     lines.push('```')
-    lines.push(returnType)
+    lines.push(returnType.type)
     lines.push('```')
     lines.push('')
   }
   return lines.join('\n')
-}
-
-function stringifyFunctionName(
-  name: string,
-  parametersData: Array<ParameterData>
-): string {
-  const parameters = parametersData.map(function ({ name }: ParameterData) {
-    return name
-  })
-  const firstOptionalIndex = parametersData.findIndex(function ({
-    optional
-  }: ParameterData) {
-    return optional === true
-  })
-  if (firstOptionalIndex === -1) {
-    return `${name}(${parameters.join(', ')})`
-  }
-  const requiredParameters = parameters.slice(0, firstOptionalIndex)
-  const optionalParameters = parameters.slice(firstOptionalIndex)
-  return `${name}(${requiredParameters.join(', ')} [, ${optionalParameters.join(
-    ', '
-  )}])`
 }
 
 function stringifyParameter(parameterData: ParameterData, indent: number) {

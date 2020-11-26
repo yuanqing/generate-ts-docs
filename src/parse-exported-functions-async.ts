@@ -11,6 +11,7 @@ import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declarat
  * @param globs  One or more globs of TypeScript files.
  * @param options.tsconfigFilePath  Path to a TypeScript configuration file.
  * Defaults to `./tsconfig.json`.
+ * @category Parse function data
  */
 export async function parseExportedFunctionsAsync(
   globs: Array<string>,

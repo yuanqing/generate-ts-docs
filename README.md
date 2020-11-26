@@ -24,15 +24,77 @@ main()
 ## API
 
 <!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
-### groupFunctionsDataByCategory(functionsData)
+### Markdown utilities
+
+#### createCategoriesToc(categories)
+
+Generate a Markdown table-of-contents for the given `categories`.
+
+##### *Parameters*
+
+- **`categories`** (`Array<{ name: string; functionsData: Array<FunctionData>; }>`)
+
+##### *Return type*
+
+```
+string
+```
+
+#### createFunctionsDataToc(functionsData)
+
+Generate a Markdown table-of-contents for the given `functionsData`.
+
+##### *Parameters*
+
+- **`functionsData`** (`Array<FunctionData>`)
+
+##### *Return type*
+
+```
+string
+```
+
+#### stringifyCategoryToMarkdown(category [, options])
+
+##### *Parameters*
+
+- **`category`** (`object`)
+  - **`name`** (`string`)
+  - **`functionsData`** (`Array<FunctionData>`)
+- **`options`** (`object`) – *Optional.*
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the category name.
+
+##### *Return type*
+
+```
+string
+```
+
+#### stringifyFunctionDataToMarkdown(functionData [, options])
+
+##### *Parameters*
+
+- **`functionData`** (`FunctionData`)
+- **`options`** (`object`) – *Optional.*
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the function name.
+
+##### *Return type*
+
+```
+string
+```
+
+### Parse function data
+
+#### groupFunctionsDataByCategory(functionsData)
 
 Groups each object in `functionsData` by the value of each function’s `tags.category` key.
 
-#### *Parameters*
+##### *Parameters*
 
 - **`functionsData`** (`Array<FunctionData>`) – Function data to be grouped.
 
-#### *Return type*
+##### *Return type*
 
 ```
 Array<{
@@ -41,50 +103,20 @@ Array<{
 }>
 ```
 
-### parseExportedFunctionsAsync(globs [, options])
+#### parseExportedFunctionsAsync(globs [, options])
 
 Parses the exported functions defined in the given `globs` of TypeScript files.
 
-#### *Parameters*
+##### *Parameters*
 
 - **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
 - **`options`** (`object`) – *Optional.*
   - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file. Defaults to `./tsconfig.json`.
 
-#### *Return type*
+##### *Return type*
 
 ```
 Promise<Array<FunctionData>>
-```
-
-### stringifyCategoryToMarkdown(category [, options])
-
-#### *Parameters*
-
-- **`category`** (`object`)
-  - **`name`** (`string`)
-  - **`functionsData`** (`Array<FunctionData>`)
-- **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the category name.
-
-#### *Return type*
-
-```
-string
-```
-
-### stringifyFunctionDataToMarkdown(functionData [, options])
-
-#### *Parameters*
-
-- **`functionData`** (`FunctionData`)
-- **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the function name.
-
-#### *Return type*
-
-```
-string
 ```
 
 <!-- end -->

@@ -1,3 +1,5 @@
+export * from './create-categories-toc'
+export * from './create-functions-data-toc'
 export * from './group-functions-data-by-category'
 export * from './parse-exported-functions-async'
 export * from './stringify-category-to-markdown'

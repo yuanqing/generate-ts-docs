@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { JsDocData, ParameterData } from '../../types'
+import { ParameterData, ParametersJsDocData } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import {
@@ -12,7 +12,7 @@ import { serializeTypeNode } from './serialize-type-node'
 
 export function serializeParametersSyntaxListNode(
   node: ts.Node,
-  parametersJsDoc: null | JsDocData
+  parametersJsDoc: null | ParametersJsDocData
 ): Array<ParameterData> {
   const childNodes = node.getChildren().filter(function (node: ts.Node) {
     return (
@@ -62,8 +62,11 @@ function parseIdentifierName(node: ts.Node): string {
 }
 
 // pass in the relevant subset of items in `parametersJsDoc`
-function transformParametersJsDoc(parametersJsDoc: JsDocData, prefix: string) {
-  const result: JsDocData = {}
+function transformParametersJsDoc(
+  parametersJsDoc: ParametersJsDocData,
+  prefix: string
+) {
+  const result: ParametersJsDocData = {}
   for (const key in parametersJsDoc) {
     if (key.indexOf(prefix) === 0) {
       result[key.slice(prefix.length)] = parametersJsDoc[key]

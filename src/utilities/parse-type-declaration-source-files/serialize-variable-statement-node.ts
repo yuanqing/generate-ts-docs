@@ -67,7 +67,10 @@ export function serializeVariableStatementNode(
             parametersSyntaxListNodes,
             parametersJsDoc
           ),
-    returnType: normalizeReturnTypeText(returnTypeNode.getText()),
+    returnType: {
+      description: null, // FIXME
+      type: normalizeReturnTypeText(returnTypeNode.getText())
+    },
     tags
   }
 }

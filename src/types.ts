@@ -6,11 +6,11 @@ export type FunctionData = {
   description: null | string
   name: string
   parametersData: Array<ParameterData>
-  returnType: string
-  tags: null | JsDocData
+  returnType: null | ReturnTypeData
+  tags: null | ParametersJsDocData
 }
 
-export type JsDocData = { [key: string]: null | string }
+export type ParametersJsDocData = { [key: string]: null | string }
 
 export type ParameterData = {
   description: null | string
@@ -19,7 +19,12 @@ export type ParameterData = {
   type: string | ObjectData
 }
 
-export interface ObjectData {
+export type ObjectData = {
   keys: Array<ParameterData>
   type: 'object'
+}
+
+export type ReturnTypeData = {
+  description: null | string
+  type: string
 }

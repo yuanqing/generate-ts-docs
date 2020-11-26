@@ -5,6 +5,7 @@ import { FunctionData } from './types'
  * `tags.category` key.
  *
  * @param functionsData  Function data to be grouped.
+ * @category Parse function data
  */
 export function groupFunctionsDataByCategory(
   functionsData: Array<FunctionData>

@@ -4,6 +4,7 @@ import { FunctionData } from './types'
 /**
  * @param options.headerLevel  Header level to be used for rendering the
  * category name.
+ * @category Markdown utilities
  */
 export function stringifyCategoryToMarkdown(
   category: {

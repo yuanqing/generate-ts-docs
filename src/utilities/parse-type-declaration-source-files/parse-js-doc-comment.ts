@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { JsDocData } from '../../types'
+import { ParametersJsDocData } from '../../types'
 import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 
@@ -8,8 +8,8 @@ export function parseJsDocComment(
   node: ts.Node
 ): null | {
   description: null | string
-  parametersJsDoc: null | JsDocData
-  tags: null | JsDocData
+  parametersJsDoc: null | ParametersJsDocData
+  tags: null | ParametersJsDocData
 } {
   const jsDocCommentNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.JSDocComment)
@@ -53,8 +53,8 @@ export function parseJsDocComment(
 function parseJsDocTagNodes(
   jsDocTagNodes: Array<ts.Node>,
   keyIndex: number
-): JsDocData {
-  const result: JsDocData = {}
+): ParametersJsDocData {
+  const result: ParametersJsDocData = {}
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
     const comment = (jsDocTagNode as ts.JSDocTag).comment
