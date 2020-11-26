@@ -1,9 +1,9 @@
 /**
  * Adds two numbers.
  *
- * @param x First number.
- * @param y Second number.
- * @return The result of adding `x` and `y`.
+ * @param x First number to add.
+ * @param y Second number to add.
+ * @return The sum of `x` and `y`.
  */
 export function add(x: number, y: number): number {
   return x + y
