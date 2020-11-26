@@ -8,7 +8,7 @@ import { createFunctionTitle } from './utilities/create-function-title'
  *
  * @category Markdown utilities
  */
-export function createCategoriesToc(
+export function createCategoriesMarkdownToc(
   categories: Array<{
     name: string
     functionsData: Array<FunctionData>

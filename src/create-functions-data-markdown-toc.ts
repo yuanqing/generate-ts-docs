@@ -8,7 +8,7 @@ import { createFunctionTitle } from './utilities/create-function-title'
  *
  * @category Markdown utilities
  */
-export function createFunctionsDataToc(
+export function createFunctionsDataMarkdownToc(
   functionsData: Array<FunctionData>
 ): string {
   const githubSlugger = new GithubSlugger()
