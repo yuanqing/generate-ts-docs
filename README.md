@@ -1,36 +1,82 @@
 # generate-ts-docs [![npm Version](https://img.shields.io/npm/v/generate-ts-docs?cacheSeconds=1800)](https://www.npmjs.com/package/generate-ts-docs) [![build](https://github.com/yuanqing/generate-ts-docs/workflows/build/badge.svg)](https://github.com/yuanqing/generate-ts-docs/actions?query=workflow%3Abuild)
 
-> Utilities to parse exported functions from TypeScript files and generate Markdown documentation
+> Utilities to parse type information and [JSDoc](https://github.com/jsdoc/jsdoc) annotations from TypeScript functions, and render documentation as Markdown
 
-## API
+## Usage
 
-The API documentation below is generated using the [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts) file in this repository:
+First:
 
-<!-- ```ts markdown-interpolate: cat scripts/generate-ts-docs.ts -->
+```sh
+$ npm install --save-dev generate-ts-docs
+```
+
+Given the following toy [`example.ts`](/example/example.ts) file:
+
+```ts
+/**
+ * Adds two numbers.
+ *
+ * @param x First number.
+ * @param y Second number.
+ * @return The result of adding `x` and `y`.
+ */
+export function add(x: number, y: number): number {
+  return x + y
+}
+```
+
+…and the following [`generate-ts-docs.ts`](/example/generate-ts-docs.ts) script:
+
 ```ts
 import {
-  groupFunctionsDataByCategory,
   parseExportedFunctionsAsync,
-  stringifyCategoryToMarkdown
-} from '../src'
+  stringifyFunctionDataToMarkdown
+} from 'generate-ts-docs'
 
 async function main() {
-  const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])
-  const categories = groupFunctionsDataByCategory(functionsData)
-  for (const category of categories) {
-    console.log(stringifyCategoryToMarkdown(category, { headerLevel: 3 })) // eslint-disable-line no-console
+  const functionsData = await parseExportedFunctionsAsync(['example.ts'])
+  for (const functionData of functionsData) {
+    console.log(stringifyFunctionDataToMarkdown(functionData)) // eslint-disable-line no-console
   }
 }
 main()
 ```
-<!-- ``` end -->
+
+Do:
+
+````
+$ npx ts-node generate-ts-docs.ts > README.md
+````
+
+The output [`README.md`](/example/README.md) will be as follows:
+
+> ### add(x, y)
+>
+> Adds two numbers.
+>
+> #### *Parameters*
+>
+> - **`x`** (`number`) – First number.
+> - **`y`** (`number`) – Second number.
+>
+> #### *Return type*
+>
+> The result of adding `x` and `y`.
+>
+> ```
+> number
+> ```
+
+## API
+
+*The API documentation below is generated using the [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts) script.*
 
 <!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
 ### Markdown utilities
 
-#### createCategoriesToc(categories)
+#### createCategoriesMarkdownToc(categories)
 
-Generate a Markdown table of contents (TOC) for the given `categories`.
+Generate a Markdown table of contents for the given `categories`.
 
 ##### *Parameters*
 
@@ -38,13 +84,15 @@ Generate a Markdown table of contents (TOC) for the given `categories`.
 
 ##### *Return type*
 
+Description for return type!!!!
+
 ```
 string
 ```
 
-#### createFunctionsDataToc(functionsData)
+#### createFunctionsDataMarkdownToc(functionsData)
 
-Generate a Markdown table of contents (TOC) for the given `functionsData`.
+Generate a Markdown table of contents for the given `functionsData`.
 
 ##### *Parameters*
 
@@ -125,7 +173,7 @@ Promise<Array<FunctionData>>
 
 ## Installation
 
-```
+```sh
 $ npm install --save-dev generate-ts-docs
 ```
 
