@@ -1,7 +1,7 @@
 {
   "name": "generate-ts-docs",
   "version": "0.0.2",
-  "description": "Utilities to parse type information and JSDoc annotations from TypeScript functions, and render documentation as Markdown",
+  "description": "Utilities to parse type information and JSDoc comments from TypeScript functions, and render documentation as Markdown",
   "keywords": [
     "doc",
     "docs",
@@ -23,8 +23,9 @@
   ],
   "scripts": {
     "build": "yarn run clean && tsc",
-    "docs": "markdown-interpolate README.md",
+    "docs": "yarn run example && markdown-interpolate README.md",
     "clean": "rimraf '*.log' .nyc_output build coverage lib",
+    "example": "cd example && ts-node generate-ts-docs.ts > README.md",
     "fix": "eslint --fix '{scripts,src}/**/*.ts'",
     "lint": "eslint '{scripts,src}/**/*.ts'",
     "prepublishOnly": "yarn run build",
