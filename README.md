@@ -2,33 +2,35 @@
 
 > Utilities to parse exported functions from TypeScript files and generate Markdown documentation
 
-## Usage
+## API
 
-The API documentation below is generated using the following script:
+The API documentation below is generated using [the following script](/scripts/generate-ts-docs.ts):
 
+<!-- ```ts markdown-interpolate: cat scripts/generate-ts-docs.ts -->
 ```ts
 import {
+  groupFunctionsDataByCategory,
   parseExportedFunctionsAsync,
-  stringifyFunctionDataToMarkdown
-} from 'generate-ts-docs'
+  stringifyCategoryToMarkdown
+} from '../src'
 
 async function main() {
   const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])
-  for (const functionData of functionsData) {
-    console.log(stringifyFunctionDataToMarkdown(functionData))
+  const categories = groupFunctionsDataByCategory(functionsData)
+  for (const category of categories) {
+    console.log(stringifyCategoryToMarkdown(category, { headerLevel: 3 })) // eslint-disable-line no-console
   }
 }
 main()
 ```
-
-## API
+<!-- ``` end -->
 
 <!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
 ### Markdown utilities
 
 #### createCategoriesToc(categories)
 
-Generate a Markdown table-of-contents for the given `categories`.
+Generate a Markdown table of contents (TOC) for the given `categories`.
 
 ##### *Parameters*
 
@@ -42,7 +44,7 @@ string
 
 #### createFunctionsDataToc(functionsData)
 
-Generate a Markdown table-of-contents for the given `functionsData`.
+Generate a Markdown table of contents (TOC) for the given `functionsData`.
 
 ##### *Parameters*
 
