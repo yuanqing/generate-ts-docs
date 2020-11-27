@@ -189,7 +189,7 @@ string
   - **`functionsData`** (`Array<FunctionData>`)
 - **`options`** (`object`) – *Optional.*
   - **`headerLevel`** (`number`) – Header level to be used for rendering the
-category name.
+category name. Defaults to `2` (ie. `##`).
 
 ##### *Return type*
 
@@ -204,7 +204,7 @@ string
 - **`functionData`** (`FunctionData`)
 - **`options`** (`object`) – *Optional.*
   - **`headerLevel`** (`number`) – Header level to be used for rendering the
-function name.
+function name. Defaults to `3` (ie. `###`).
 
 ##### *Return type*
 
@@ -238,8 +238,8 @@ $ npm install --save-dev generate-ts-docs
 
 `ts-generate-docs` works via the following two-step process:
 
-- Generates type declarations for the given TypeScript source files.
-- Traverses and extracts relevant information from the AST of the generated type declarations.
+1. Generate [type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html) for the given TypeScript source files.
+2. Traverse and extract relevant information from the [AST](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API) of the generated type declarations.
 
 ## See also
 
