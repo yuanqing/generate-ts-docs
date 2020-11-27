@@ -236,7 +236,7 @@ $ npm install --save-dev generate-ts-docs
 
 ## Implementation details
 
-`ts-generate-docs` works via the following two-step process:
+`generate-ts-docs` works via the following two-step process:
 
 1. Generate [type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html) for the given TypeScript source files.
 2. Traverse and extract relevant information from the [AST](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API) of the generated type declarations.
