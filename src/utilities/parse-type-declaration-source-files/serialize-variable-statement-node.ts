@@ -51,7 +51,7 @@ export function serializeVariableStatementNode(
   if (returnTypeNode === null) {
     throw new Error('`returnTypeNode` is null')
   }
-  const parametersSyntaxListNodes = traverseNode(node, [
+  const parametersSyntaxListNodes = traverseNode(typeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.SyntaxList)
