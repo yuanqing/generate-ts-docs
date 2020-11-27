@@ -5,7 +5,7 @@ const indentSize = 2
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the
- * function name.
+ * function name. Defaults to `3` (ie. `###`).
  * @category Render to Markdown
  */
 export function renderFunctionDataAsMarkdown(

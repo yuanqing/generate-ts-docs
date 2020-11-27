@@ -3,7 +3,7 @@ import { FunctionData } from './types'
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the
- * category name.
+ * category name. Defaults to `2` (ie. `##`).
  * @category Render to Markdown
  */
 export function renderCategoryAsMarkdown(
