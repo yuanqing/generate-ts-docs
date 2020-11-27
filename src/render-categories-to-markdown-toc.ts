@@ -6,9 +6,9 @@ import { createFunctionTitle } from './utilities/create-function-title'
 /**
  * Generate a Markdown table of contents for the given `categories`.
  *
- * @category Render to Markdown
+ * @category Markdown table of contents
  */
-export function renderCategoriesAsMarkdownToc(
+export function renderCategoriesToMarkdownToc(
   categories: Array<{
     name: string
     functionsData: Array<FunctionData>

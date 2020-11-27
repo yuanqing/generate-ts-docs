@@ -6,9 +6,9 @@ import { createFunctionTitle } from './utilities/create-function-title'
 /**
  * Generate a Markdown table of contents for the given `functionsData`.
  *
- * @category Render to Markdown
+ * @category Markdown table of contents
  */
-export function renderFunctionsDataAsMarkdownToc(
+export function renderFunctionsDataToMarkdownToc(
   functionsData: Array<FunctionData>
 ): string {
   const githubSlugger = new GithubSlugger()

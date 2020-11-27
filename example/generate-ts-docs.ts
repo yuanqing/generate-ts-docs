@@ -1,12 +1,12 @@
 import {
   parseExportedFunctionsAsync,
-  renderFunctionDataAsMarkdown
+  renderFunctionDataToMarkdown
 } from '../src'
 
 async function main() {
   const functionsData = await parseExportedFunctionsAsync(['./example.ts'])
   for (const functionData of functionsData) {
-    console.log(renderFunctionDataAsMarkdown(functionData))
+    console.log(renderFunctionDataToMarkdown(functionData))
   }
 }
 main()

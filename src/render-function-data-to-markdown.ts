@@ -5,14 +5,14 @@ const indentSize = 2
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the
- * function name. Defaults to `3` (ie. `###`).
- * @category Render to Markdown
+ * function name. Defaults to `1` (ie. `#`).
+ * @category Markdown
  */
-export function renderFunctionDataAsMarkdown(
+export function renderFunctionDataToMarkdown(
   functionData: FunctionData,
   options?: { headerLevel: number }
 ): string {
-  const headerLevel = typeof options === 'undefined' ? 3 : options.headerLevel
+  const headerLevel = typeof options === 'undefined' ? 1 : options.headerLevel
   const {
     description,
     name,

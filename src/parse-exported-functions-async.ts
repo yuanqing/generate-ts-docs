@@ -8,15 +8,15 @@ import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declarat
  * Parses the exported functions defined in the given `globs` of TypeScript
  * files.
  *
- * - Functions with the `@ignore` JSDoc tag will be ignored.
+ * - Functions with the `@ignore` JSDoc tag will be skipped.
  * - Functions will be sorted in *ascending* order of their `@weight` JSDoc
- * tag. A function with the `@weight` tag will come before a function without
- * the `@weight` tag.
+ * tag. A function with the `@weight` tag will be ranked *before* a function
+ * without the `@weight` tag.
  *
  * @param globs  One or more globs of TypeScript files.
  * @param options.tsconfigFilePath  Path to a TypeScript configuration file.
  * Defaults to `./tsconfig.json`.
- * @category Parse function data
+ * @category Functions data
  * @weight 1
  */
 export async function parseExportedFunctionsAsync(

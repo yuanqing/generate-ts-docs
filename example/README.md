@@ -1,13 +1,13 @@
-### add(x, y)
+# add(x, y)
 
 Adds two numbers.
 
-#### *Parameters*
+## *Parameters*
 
 - **`x`** (`number`) – First number to add.
 - **`y`** (`number`) – Second number to add.
 
-#### *Return type*
+## *Return type*
 
 The sum of `x` and `y`.
 
