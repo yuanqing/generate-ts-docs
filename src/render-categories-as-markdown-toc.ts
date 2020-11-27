@@ -6,7 +6,7 @@ import { createFunctionTitle } from './utilities/create-function-title'
 /**
  * Generate a Markdown table of contents for the given `categories`.
  *
- * @category Markdown utilities
+ * @category Render to Markdown
  */
 export function renderCategoriesAsMarkdownToc(
   categories: Array<{
@@ -17,10 +17,10 @@ export function renderCategoriesAsMarkdownToc(
   const githubSlugger = new GithubSlugger()
   const lines = []
   for (const { name, functionsData } of categories) {
-    lines.push(`- [**${name}**](${githubSlugger.slug(name)})`)
+    lines.push(`- [**${name}**](#${githubSlugger.slug(name)})`)
     for (const { name, parameters: parametersData } of functionsData) {
       const functionName = createFunctionTitle(name, parametersData)
-      lines.push(`  - [${functionName}](${githubSlugger.slug(functionName)})`)
+      lines.push(`  - [${functionName}](#${githubSlugger.slug(functionName)})`)
     }
   }
   return lines.join('\n')

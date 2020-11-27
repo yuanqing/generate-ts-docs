@@ -1,8 +1,8 @@
 import * as ts from 'typescript'
 
 import { ParametersJsDocData } from '../../types'
-import { traverseNode } from './find-node'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
+import { traverseNode } from './traverse-node'
 
 export function parseJsDocComment(
   node: ts.Node
@@ -93,11 +93,4 @@ function parseJsDocTagNodes(
 
 function normalizeText(text: string) {
   return text
-    .replace(/\n+/g, function (match: string) {
-      if (match.length === 1) {
-        return ' '
-      }
-      return match
-    })
-    .trim()
 }

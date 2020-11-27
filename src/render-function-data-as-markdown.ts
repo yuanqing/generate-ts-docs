@@ -6,7 +6,7 @@ const indentSize = 2
 /**
  * @param options.headerLevel  Header level to be used for rendering the
  * function name.
- * @category Markdown utilities
+ * @category Render to Markdown
  */
 export function renderFunctionDataAsMarkdown(
   functionData: FunctionData,
@@ -48,7 +48,7 @@ export function renderFunctionDataAsMarkdown(
     lines.push('```')
     lines.push('')
   }
-  return lines.join('\n').trim()
+  return lines.join('\n')
 }
 
 function stringifyParameter(parameterData: ParameterData, indent: number) {

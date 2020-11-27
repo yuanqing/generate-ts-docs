@@ -75,7 +75,7 @@ main()
 ```
 <!-- ``` end -->
 
-`renderFunctionDataAsMarkdown` pretty-prints the given array of `FunctionData` objects into a Markdown string.
+`renderFunctionDataAsMarkdown` renders the given array of `FunctionData` objects to a Markdown string.
 
 Now, let’s run the `generate-ts-docs.ts` script, piping its output to a file:
 
@@ -103,17 +103,70 @@ The sum of `x` and `y`.
 ```
 number
 ```
+
 ````
 <!-- ```` end -->
 
 ## API
 
-*The documentation below is generated using the [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts) script in this repository.*
+*(The API documentation below is generated with [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts).)*
 
 <!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
-### Markdown utilities
+- [**Parse function data**](#parse-function-data)
+  - [parseExportedFunctionsAsync(globs [, options])](#parseexportedfunctionsasyncglobs--options)
+  - [createCategories(functionsData)](#createcategoriesfunctionsdata)
+- [**Render to Markdown**](#render-to-markdown)
+  - [renderCategoriesAsMarkdownToc(categories)](#rendercategoriesasmarkdowntoccategories)
+  - [renderCategoryAsMarkdown(category [, options])](#rendercategoryasmarkdowncategory--options)
+  - [renderFunctionDataAsMarkdown(functionData [, options])](#renderfunctiondataasmarkdownfunctiondata--options)
+  - [renderFunctionsDataAsMarkdownToc(functionsData)](#renderfunctionsdataasmarkdowntocfunctionsdata)
 
-#### createCategoriesMarkdownToc(categories)
+### Parse function data
+
+#### parseExportedFunctionsAsync(globs [, options])
+
+Parses the exported functions defined in the given `globs` of TypeScript
+files.
+
+- Functions with the `@ignore` JSDoc tag will be ignored.
+- Functions will be sorted in *ascending* order of their `@weight` JSDoc
+tag. A function with the `@weight` tag will come before a function without
+the `@weight` tag.
+
+##### *Parameters*
+
+- **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
+- **`options`** (`object`) – *Optional.*
+  - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file.
+Defaults to `./tsconfig.json`.
+
+##### *Return type*
+
+```
+Promise<Array<FunctionData>>
+```
+
+#### createCategories(functionsData)
+
+Groups each object in `functionsData` by the value of each function’s
+`tags.category` key.
+
+##### *Parameters*
+
+- **`functionsData`** (`Array<FunctionData>`)
+
+##### *Return type*
+
+```
+Array<{
+  name: string;
+  functionsData: Array<FunctionData>;
+}>
+```
+
+### Render to Markdown
+
+#### renderCategoriesAsMarkdownToc(categories)
 
 Generate a Markdown table of contents for the given `categories`.
 
@@ -126,7 +179,40 @@ Generate a Markdown table of contents for the given `categories`.
 ```
 string
 ```
-#### createFunctionsDataMarkdownToc(functionsData)
+
+#### renderCategoryAsMarkdown(category [, options])
+
+##### *Parameters*
+
+- **`category`** (`object`)
+  - **`name`** (`string`)
+  - **`functionsData`** (`Array<FunctionData>`)
+- **`options`** (`object`) – *Optional.*
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the
+category name.
+
+##### *Return type*
+
+```
+string
+```
+
+#### renderFunctionDataAsMarkdown(functionData [, options])
+
+##### *Parameters*
+
+- **`functionData`** (`FunctionData`)
+- **`options`** (`object`) – *Optional.*
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the
+function name.
+
+##### *Return type*
+
+```
+string
+```
+
+#### renderFunctionsDataAsMarkdownToc(functionsData)
 
 Generate a Markdown table of contents for the given `functionsData`.
 
@@ -139,67 +225,7 @@ Generate a Markdown table of contents for the given `functionsData`.
 ```
 string
 ```
-#### renderCategoryAsMarkdown(category [, options])
 
-##### *Parameters*
-
-- **`category`** (`object`)
-  - **`name`** (`string`)
-  - **`functionsData`** (`Array<FunctionData>`)
-- **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the category name.
-
-##### *Return type*
-
-```
-string
-```
-#### renderFunctionDataAsMarkdown(functionData [, options])
-
-##### *Parameters*
-
-- **`functionData`** (`FunctionData`)
-- **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the function name.
-
-##### *Return type*
-
-```
-string
-```
-### Parse function data
-
-#### groupFunctionsDataByCategory(functionsData)
-
-Groups each object in `functionsData` by the value of each function’s `tags.category` key.
-
-##### *Parameters*
-
-- **`functionsData`** (`Array<FunctionData>`) – Function data to be grouped.
-
-##### *Return type*
-
-```
-Array<{
-  name: string;
-  functionsData: Array<FunctionData>;
-}>
-```
-#### parseExportedFunctionsAsync(globs [, options])
-
-Parses the exported functions defined in the given `globs` of TypeScript files.
-
-##### *Parameters*
-
-- **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
-- **`options`** (`object`) – *Optional.*
-  - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file. Defaults to `./tsconfig.json`.
-
-##### *Return type*
-
-```
-Promise<Array<FunctionData>>
-```
 <!-- end -->
 
 ## Installation

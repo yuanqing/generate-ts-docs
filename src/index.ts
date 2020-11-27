@@ -1,4 +1,4 @@
-export * from './group-functions-data-by-category'
+export * from './create-categories'
 export * from './parse-exported-functions-async'
 export * from './render-categories-as-markdown-toc'
 export * from './render-category-as-markdown'

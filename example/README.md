@@ -14,3 +14,4 @@ The sum of `x` and `y`.
 ```
 number
 ```
+

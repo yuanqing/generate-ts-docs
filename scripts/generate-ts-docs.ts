@@ -1,14 +1,19 @@
+/* eslint-disable no-console */
+
 import {
-  groupFunctionsDataByCategory,
+  createCategories,
   parseExportedFunctionsAsync,
+  renderCategoriesAsMarkdownToc,
   renderCategoryAsMarkdown
 } from '../src'
 
 async function main() {
   const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])
-  const categories = groupFunctionsDataByCategory(functionsData)
+  const categories = createCategories(functionsData)
+  console.log(renderCategoriesAsMarkdownToc(categories))
+  console.log()
   for (const category of categories) {
-    console.log(renderCategoryAsMarkdown(category, { headerLevel: 3 })) // eslint-disable-line no-console
+    console.log(renderCategoryAsMarkdown(category, { headerLevel: 3 }))
   }
 }
 main()

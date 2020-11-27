@@ -1,13 +1,13 @@
 import * as ts from 'typescript'
 
 import { FunctionData } from '../../types'
-import { traverseNode } from './find-node'
 import { normalizeReturnTypeText } from './normalize-return-type-text'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { getNextSiblingNode } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
 import { parseJsDocComment } from './parse-js-doc-comment'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
+import { traverseNode } from './traverse-node'
 
 export function serializeFunctionDeclarationNode(
   node: ts.Node

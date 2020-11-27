@@ -4,7 +4,7 @@ import { FunctionData } from './types'
 /**
  * @param options.headerLevel  Header level to be used for rendering the
  * category name.
- * @category Markdown utilities
+ * @category Render to Markdown
  */
 export function renderCategoryAsMarkdown(
   category: {
@@ -25,5 +25,5 @@ export function renderCategoryAsMarkdown(
       })
     )
   }
-  return lines.join('\n').trim()
+  return lines.join('\n')
 }
