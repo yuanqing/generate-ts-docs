@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { Operation } from '../../types'
+import { Operation } from './operations/operation'
 
 export function traverseNode(
   node: ts.Node,

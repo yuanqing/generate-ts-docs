@@ -1,16 +1,10 @@
-import * as ts from 'typescript'
-
-export type Operation = (node: ts.Node) => null | ts.Node
-
 export type FunctionData = {
   description: null | string
   name: string
   parameters: Array<ParameterData>
   returnType: null | ReturnTypeData
-  tags: null | ParametersJsDocData
+  tags: null | TagsData
 }
-
-export type ParametersJsDocData = { [key: string]: null | string }
 
 export type ParameterData = {
   description: null | string
@@ -28,3 +22,5 @@ export type ReturnTypeData = {
   description: null | string
   type: string
 }
+
+export type TagsData = { [key: string]: null | string }

@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { ParametersJsDocData } from '../../types'
+import { TagsData } from '../../types'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { traverseNode } from './traverse-node'
 
@@ -8,9 +8,9 @@ export function parseJsDocComment(
   node: ts.Node
 ): null | {
   description: null | string
-  parameters: null | ParametersJsDocData
+  parameters: null | TagsData
   returnType: null | string
-  tags: null | ParametersJsDocData
+  tags: null | TagsData
 } {
   const jsDocCommentNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.JSDocComment)
@@ -58,7 +58,7 @@ function parseReturnTypeDescription(node: ts.Node): null | string {
   return returnTypeDescription
 }
 
-function parseParameterDescriptions(node: ts.Node): null | ParametersJsDocData {
+function parseParameterDescriptions(node: ts.Node): null | TagsData {
   const jsDocParameterTagNodes = node
     .getChildren()
     .filter(function (node: ts.Node) {
@@ -69,7 +69,7 @@ function parseParameterDescriptions(node: ts.Node): null | ParametersJsDocData {
     : parseJsDocTagNodes(jsDocParameterTagNodes, 1)
 }
 
-function parseTags(node: ts.Node): null | ParametersJsDocData {
+function parseTags(node: ts.Node): null | TagsData {
   const jsDocTagNodes = node.getChildren().filter(function (node: ts.Node) {
     return node.kind === ts.SyntaxKind.JSDocTag
   })
@@ -81,8 +81,8 @@ function parseTags(node: ts.Node): null | ParametersJsDocData {
 function parseJsDocTagNodes(
   jsDocTagNodes: Array<ts.Node>,
   keyIndex: number
-): ParametersJsDocData {
-  const result: ParametersJsDocData = {}
+): TagsData {
+  const result: TagsData = {}
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
     const comment = (jsDocTagNode as ts.JSDocTag).comment

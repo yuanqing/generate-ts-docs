@@ -1,6 +1,6 @@
 import * as ts from 'typescript'
 
-import { ObjectData, ParametersJsDocData } from '../../types'
+import { ObjectData, TagsData } from '../../types'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
 import { getNextSiblingNode } from './operations/get-sibling-node'
 import { isKind } from './operations/is-kind'
@@ -9,7 +9,7 @@ import { traverseNode } from './traverse-node'
 
 export function serializeTypeNode(
   node: ts.Node,
-  parametersJsDoc: null | ParametersJsDocData
+  parametersJsDoc: null | TagsData
 ): string | ObjectData {
   if (node.kind === ts.SyntaxKind.TypeLiteral) {
     return serializeTypeLiteralNode(node, parametersJsDoc)
@@ -19,7 +19,7 @@ export function serializeTypeNode(
 
 function serializeTypeLiteralNode(
   node: ts.Node,
-  parametersJsDoc: null | ParametersJsDocData
+  parametersJsDoc: null | TagsData
 ): ObjectData {
   const parametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenBraceToken),
