@@ -109,7 +109,40 @@ number
 
 ## API
 
-*(The API documentation below was generated using [`scripts/generate-ts-docs.ts`](/scripts/generate-ts-docs.ts).)*
+### Types
+
+<!-- ```ts markdown-interpolate: cat src/types.ts -->
+```ts
+export type FunctionData = {
+  description: null | string
+  name: string
+  parameters: Array<ParameterData>
+  returnType: null | ReturnTypeData
+  tags: null | TagsData
+}
+
+export type ParameterData = {
+  description: null | string
+  name: string
+  optional: boolean
+  type: string | ObjectData
+}
+
+export type ObjectData = {
+  keys: Array<ParameterData>
+  type: 'object'
+}
+
+export type ReturnTypeData = {
+  description: null | string
+  type: string
+}
+
+export type TagsData = { [key: string]: null | string }
+```
+<!-- ``` end -->
+
+### Functions
 
 <!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
 - [**Functions data**](#functions-data)
@@ -122,9 +155,9 @@ number
   - [renderCategoriesToMarkdownToc(categories)](#rendercategoriestomarkdowntoccategories)
   - [renderFunctionsDataToMarkdownToc(functionsData)](#renderfunctionsdatatomarkdowntocfunctionsdata)
 
-### Functions data
+#### Functions data
 
-#### parseExportedFunctionsAsync(globs [, options])
+##### parseExportedFunctionsAsync(globs [, options])
 
 Parses the exported functions defined in the given `globs` of TypeScript
 files.
@@ -134,29 +167,29 @@ files.
 tag. A function with the `@weight` tag will be ranked *before* a function
 without the `@weight` tag.
 
-##### *Parameters*
+###### *Parameters*
 
 - **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
 - **`options`** (`object`) – *Optional.*
   - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file.
 Defaults to `./tsconfig.json`.
 
-##### *Return type*
+###### *Return type*
 
 ```
 Promise<Array<FunctionData>>
 ```
 
-#### createCategories(functionsData)
+##### createCategories(functionsData)
 
 Groups each object in `functionsData` by the value of each function’s
 `tags.category` key.
 
-##### *Parameters*
+###### *Parameters*
 
 - **`functionsData`** (`Array<FunctionData>`)
 
-##### *Return type*
+###### *Return type*
 
 ```
 Array<{
@@ -165,11 +198,11 @@ Array<{
 }>
 ```
 
-### Markdown
+#### Markdown
 
-#### renderCategoryToMarkdown(category [, options])
+##### renderCategoryToMarkdown(category [, options])
 
-##### *Parameters*
+###### *Parameters*
 
 - **`category`** (`object`)
   - **`name`** (`string`)
@@ -178,52 +211,52 @@ Array<{
   - **`headerLevel`** (`number`) – Header level to be used for rendering the
 category name. Defaults to `1` (ie. `#`).
 
-##### *Return type*
+###### *Return type*
 
 ```
 string
 ```
 
-#### renderFunctionDataToMarkdown(functionData [, options])
+##### renderFunctionDataToMarkdown(functionData [, options])
 
-##### *Parameters*
+###### *Parameters*
 
 - **`functionData`** (`FunctionData`)
 - **`options`** (`object`) – *Optional.*
   - **`headerLevel`** (`number`) – Header level to be used for rendering the
 function name. Defaults to `1` (ie. `#`).
 
-##### *Return type*
+###### *Return type*
 
 ```
 string
 ```
 
-### Markdown table of contents
+#### Markdown table of contents
 
-#### renderCategoriesToMarkdownToc(categories)
+##### renderCategoriesToMarkdownToc(categories)
 
 Generate a Markdown table of contents for the given `categories`.
 
-##### *Parameters*
+###### *Parameters*
 
 - **`categories`** (`Array<{ name: string; functionsData: Array<FunctionData>; }>`)
 
-##### *Return type*
+###### *Return type*
 
 ```
 string
 ```
 
-#### renderFunctionsDataToMarkdownToc(functionsData)
+##### renderFunctionsDataToMarkdownToc(functionsData)
 
 Generate a Markdown table of contents for the given `functionsData`.
 
-##### *Parameters*
+###### *Parameters*
 
 - **`functionsData`** (`Array<FunctionData>`)
 
-##### *Return type*
+###### *Return type*
 
 ```
 string
@@ -239,7 +272,7 @@ $ npm install --save-dev generate-ts-docs
 
 ## Implementation details
 
-[`parseExportedFunctionsAsync`](/src/parse-exported-functions-async.ts) works via the following two-step process:
+The [`parseExportedFunctionsAsync`](/src/parse-exported-functions-async.ts) function works via the following two-step process:
 
 1. Generate [type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html) for the given TypeScript source files.
 2. Traverse and extract relevant information from the [AST](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API) of the generated type declarations.

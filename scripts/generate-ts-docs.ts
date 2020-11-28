@@ -13,7 +13,7 @@ async function main() {
   console.log(renderCategoriesToMarkdownToc(categories))
   console.log()
   for (const category of categories) {
-    console.log(renderCategoryToMarkdown(category, { headerLevel: 3 }))
+    console.log(renderCategoryToMarkdown(category, { headerLevel: 4 }))
   }
 }
 main()
