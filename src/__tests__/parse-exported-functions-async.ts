@@ -286,7 +286,7 @@ test('parses multiple functions', async function (t) {
   ])
 })
 
-test('sorts functions by their `@weight` tag', async function (t) {
+test('sorts functions in ascending order of their `@weight` tag', async function (t) {
   t.plan(2)
   const filePath = path.resolve(fixturesDirectory, '9-weight-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
