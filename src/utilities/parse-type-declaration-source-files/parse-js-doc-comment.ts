@@ -32,8 +32,7 @@ export function parseJsDocComment(
   const returnType = parseReturnTypeDescription(jsDocCommentNode)
   const parameters = parseParameterDescriptions(jsDocCommentNode)
   return {
-    description:
-      typeof description === 'undefined' ? null : normalizeText(description),
+    description: typeof description === 'undefined' ? null : description,
     parameters,
     returnType:
       typeof returnType === 'undefined' || returnType === null
@@ -86,11 +85,7 @@ function parseJsDocTagNodes(
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
     const comment = (jsDocTagNode as ts.JSDocTag).comment
-    result[key] = typeof comment === 'undefined' ? null : normalizeText(comment)
+    result[key] = typeof comment === 'undefined' ? null : comment
   }
   return result
-}
-
-function normalizeText(text: string) {
-  return text
 }
