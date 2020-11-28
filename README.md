@@ -1,6 +1,6 @@
 # generate-ts-docs [![npm Version](https://img.shields.io/npm/v/generate-ts-docs?cacheSeconds=1800)](https://www.npmjs.com/package/generate-ts-docs) [![build](https://github.com/yuanqing/generate-ts-docs/workflows/build/badge.svg)](https://github.com/yuanqing/generate-ts-docs/actions?query=workflow%3Abuild)
 
-> Utilities to parse type information and [JSDoc comments](https://jsdoc.app/about-getting-started.html#adding-documentation-comments-to-your-code) from TypeScript functions, and render documentation as Markdown
+> Utilities to parse type information and [JSDoc annotations](https://jsdoc.app/about-getting-started.html#adding-documentation-comments-to-your-code) from TypeScript source files, and render Markdown documentation
 
 ## Usage
 

@@ -1,7 +1,7 @@
 {
   "name": "generate-ts-docs",
   "version": "0.0.5",
-  "description": "Utilities to parse type information and JSDoc comments from TypeScript functions, and render documentation as Markdown",
+  "description": "Utilities to parse type information and JSDoc annotations from TypeScript source files, and render Markdown documentation",
   "keywords": [
     "doc",
     "docs",
