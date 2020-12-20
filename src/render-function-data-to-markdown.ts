@@ -29,7 +29,7 @@ export function renderFunctionDataToMarkdown(
     lines.push('')
   }
   if (parametersData.length > 0) {
-    lines.push(`${'#'.repeat(headerLevel + 1)} *Parameters*`)
+    lines.push('***Parameters***')
     lines.push('')
     for (const parameterData of parametersData) {
       lines.push(stringifyParameter(parameterData, 0))
@@ -37,7 +37,7 @@ export function renderFunctionDataToMarkdown(
     lines.push('')
   }
   if (returnType !== null) {
-    lines.push(`${'#'.repeat(headerLevel + 1)} *Return type*`)
+    lines.push('***Return type***')
     lines.push('')
     if (returnType.description !== null) {
       lines.push(returnType.description)
