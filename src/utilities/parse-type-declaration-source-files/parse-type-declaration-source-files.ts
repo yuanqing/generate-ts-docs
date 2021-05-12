@@ -1,8 +1,8 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { FunctionData } from '../../types'
-import { serializeFunctionDeclarationNode } from './serialize-function-declaration-node'
-import { serializeVariableStatementNode } from './serialize-variable-statement-node'
+import { FunctionData } from '../../types.js'
+import { serializeFunctionDeclarationNode } from './serialize-function-declaration-node.js'
+import { serializeVariableStatementNode } from './serialize-variable-statement-node.js'
 
 export function parseTypeDeclarationSourceFiles(
   sourceFiles: Array<ts.SourceFile>

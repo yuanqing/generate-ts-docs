@@ -24,4 +24,4 @@ export type ReturnTypeData = {
   type: string
 }
 
-export type TagsData = { [key: string]: null | string }
+export type TagsData = Record<string, null | string>

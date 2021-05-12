@@ -1,4 +1,4 @@
-import { ParameterData } from '../types'
+import { ParameterData } from '../types.js'
 
 export function createFunctionTitle(
   name: string,

@@ -1,11 +1,11 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { ObjectData, TagsData } from '../../types'
-import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
-import { getNextSiblingNode } from './operations/get-sibling-node'
-import { isKind } from './operations/is-kind'
-import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node'
-import { traverseNode } from './traverse-node'
+import { ObjectData, TagsData } from '../../types.js'
+import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
+import { getNextSiblingNode } from './operations/get-sibling-node.js'
+import { isKind } from './operations/is-kind.js'
+import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { traverseNode } from './traverse-node.js'
 
 export function serializeTypeNode(
   node: ts.Node,

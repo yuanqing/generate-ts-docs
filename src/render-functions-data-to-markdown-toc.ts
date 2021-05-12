@@ -1,7 +1,7 @@
-import { FunctionData } from './types'
+import GithubSlugger from 'github-slugger'
 
-import GithubSlugger = require('github-slugger')
-import { createFunctionTitle } from './utilities/create-function-title'
+import { FunctionData } from './types.js'
+import { createFunctionTitle } from './utilities/create-function-title.js'
 
 /**
  * Generate a Markdown table of contents for the given `functionsData`.

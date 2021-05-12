@@ -1,5 +1,5 @@
-import { renderFunctionDataToMarkdown } from './render-function-data-to-markdown'
-import { FunctionData } from './types'
+import { renderFunctionDataToMarkdown } from './render-function-data-to-markdown.js'
+import { FunctionData } from './types.js'
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the

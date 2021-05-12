@@ -5,7 +5,7 @@ import {
   parseExportedFunctionsAsync,
   renderCategoriesToMarkdownToc,
   renderCategoryToMarkdown
-} from '../src'
+} from '../src/index.js'
 
 async function main() {
   const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])

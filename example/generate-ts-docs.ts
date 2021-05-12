@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
+
 import {
   parseExportedFunctionsAsync,
   renderFunctionDataToMarkdown
-} from '../src'
+} from '../src/index.js'
 
 async function main() {
   const functionsData = await parseExportedFunctionsAsync(['./example.ts'])

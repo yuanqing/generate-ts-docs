@@ -17,56 +17,72 @@
     "type": "git",
     "url": "git://github.com/yuanqing/generate-ts-docs.git"
   },
-  "main": "lib/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=12.20"
+  },
+  "exports": "./lib/index.js",
+  "main": "./lib/index.js",
   "files": [
     "lib"
   ],
   "scripts": {
     "build": "yarn run clean && tsc",
-    "docs": "yarn run example && markdown-interpolate README.md",
-    "clean": "rimraf '*.log' .nyc_output build coverage lib",
-    "example": "cd example && ts-node generate-ts-docs.ts > README.md",
-    "fix": "eslint --fix '{scripts,src,test}/**/*.ts'",
-    "lint": "eslint '{scripts,src,test}/**/*.ts'",
+    "docs": "yarn run example && markdown-interpolate ./README.md",
+    "clean": "rm -rf './*.log' ./.nyc_output ./build ./coverage ./lib",
+    "example": "cd example && ts-node ./scripts/generate-ts-docs.ts > README.md",
+    "fix": "eslint --fix './{scripts,src,test}/**/*.ts'",
+    "lint": "eslint './{scripts,src,test}/**/*.ts'",
     "prepublishOnly": "yarn run build",
-    "reset": "yarn run clean && rimraf node_modules yarn.lock && yarn install",
-    "test": "tap 'test/**/*.ts' --coverage-report html --coverage-report text --jobs-auto --no-browser --no-timeout --reporter terse",
+    "reset": "yarn run clean && rm -rf ./node_modules ./yarn.lock && yarn install",
+    "test": "ava './test/**/*.ts'",
     "watch": "yarn run clean && tsc --watch"
   },
   "dependencies": {
     "github-slugger": "^1.3.0",
-    "globby": "^11.0.1",
-    "typescript": "*"
+    "globby": "^11.0.3"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.5",
+    "@types/fs-extra": "^9.0.11",
     "@types/github-slugger": "^1.3.0",
-    "@types/node": "^14.14.14",
-    "@types/tap": "^14.10.1",
-    "eslint": "^7.16.0",
-    "eslint-config-yuanqing": "^0.0.4",
-    "fs-extra": "^9.0.1",
-    "husky": "^4.3.6",
-    "lint-staged": "^10.5.3",
+    "@types/node": "^15.0.3",
+    "ava": "^3.15.0",
+    "eslint": "^7.26.0",
+    "eslint-config-yuanqing": "^0.0.5",
+    "fs-extra": "^10.0.0",
+    "lint-staged": "^11.0.0",
     "markdown-interpolate": "^0.0.7",
-    "prettier": "^2.2.1",
-    "rimraf": "^3.0.2",
-    "tap": "^14.11.0",
+    "prettier": "^2.3.0",
+    "simple-git-hooks": "^2.4.1",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4"
+  },
+  "peerDependencies": {
+    "typescript": "^4"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "nodeArguments": [
+      "--loader",
+      "ts-node/esm"
+    ],
+    "nonSemVerExperiments": {
+      "configurableModuleFormat": true
+    }
   },
   "eslintConfig": {
     "extends": "eslint-config-yuanqing"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.ts": [
       "eslint"
     ]
   },
-  "prettier": "eslint-config-yuanqing/prettier"
+  "prettier": "eslint-config-yuanqing/prettier",
+  "simple-git-hooks": {
+    "pre-commit": "yarn run lint-staged",
+    "pre-push": "yarn run lint && yarn run fix && yarn run test"
+  }
 }

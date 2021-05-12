@@ -1,14 +1,14 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { ParameterData, TagsData } from '../../types'
-import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
+import { ParameterData, TagsData } from '../../types.js'
+import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import {
   getNextSiblingNode,
   getPreviousSiblingNode
-} from './operations/get-sibling-node'
-import { isKind } from './operations/is-kind'
-import { serializeTypeNode } from './serialize-type-node'
-import { traverseNode } from './traverse-node'
+} from './operations/get-sibling-node.js'
+import { isKind } from './operations/is-kind.js'
+import { serializeTypeNode } from './serialize-type-node.js'
+import { traverseNode } from './traverse-node.js'
 
 export function serializeParametersSyntaxListNode(
   node: ts.Node,

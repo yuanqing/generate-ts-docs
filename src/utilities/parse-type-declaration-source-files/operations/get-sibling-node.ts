@@ -1,6 +1,6 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { Operation } from './operation'
+import { Operation } from './operation.js'
 
 export const getPreviousSiblingNode = getSiblingNodeFactory(-1)
 export const getNextSiblingNode = getSiblingNodeFactory(1)

@@ -1,4 +1,4 @@
-import { FunctionData } from './types'
+import { FunctionData } from './types.js'
 
 /**
  * Groups each object in `functionsData` by the value of each function’s
@@ -6,13 +6,11 @@ import { FunctionData } from './types'
  *
  * @category Functions data
  */
-export function createCategories(
-  functionsData: Array<FunctionData>
-): Array<{
+export function createCategories(functionsData: Array<FunctionData>): Array<{
   name: string
   functionsData: Array<FunctionData>
 }> {
-  const result: { [name: string]: Array<FunctionData> } = {}
+  const result: Record<string, Array<FunctionData>> = {}
   for (const functionData of functionsData) {
     if (
       functionData.tags === null ||

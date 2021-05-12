@@ -1,14 +1,16 @@
-import * as fs from 'fs-extra'
-import * as path from 'path'
-import { test } from 'tap'
+import test from 'ava'
+import fs from 'fs-extra'
+import { dirname, resolve } from 'path'
+import { fileURLToPath } from 'url'
 
-import { parseExportedFunctionsAsync } from '../src/parse-exported-functions-async'
+import { parseExportedFunctionsAsync } from '../src/parse-exported-functions-async.js'
 
-const fixturesDirectory = path.resolve(__dirname, 'fixtures')
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const fixturesDirectory = resolve(__dirname, 'fixtures')
 
 test('throws if no files match the given globs', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, 'invalid.ts')
+  const filePath = resolve(fixturesDirectory, 'invalid.ts')
   t.true((await fs.pathExists(filePath)) === false)
   try {
     await parseExportedFunctionsAsync([filePath])
@@ -20,7 +22,7 @@ test('throws if no files match the given globs', async function (t) {
 
 test('parses function expressed as a function declaration (`function add`)', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '1-function-declaration.ts')
+  const filePath = resolve(fixturesDirectory, '1-function-declaration.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -53,7 +55,7 @@ test('parses function expressed as a function declaration (`function add`)', asy
 
 test('parses function expressed as a variable statement eg. `const foo = function`', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '2-variable-statement.ts')
+  const filePath = resolve(fixturesDirectory, '2-variable-statement.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -86,7 +88,7 @@ test('parses function expressed as a variable statement eg. `const foo = functio
 
 test('parses optional parameters', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '3-optional-parameters.ts')
+  const filePath = resolve(fixturesDirectory, '3-optional-parameters.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -119,7 +121,7 @@ test('parses optional parameters', async function (t) {
 
 test('parses the function description', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '4-function-description.ts')
+  const filePath = resolve(fixturesDirectory, '4-function-description.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -152,7 +154,7 @@ test('parses the function description', async function (t) {
 
 test('parses the `@param` tag', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '5-param-tag.ts')
+  const filePath = resolve(fixturesDirectory, '5-param-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -185,7 +187,7 @@ test('parses the `@param` tag', async function (t) {
 
 test('parses the `@returns` tag', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '6-return-tag.ts')
+  const filePath = resolve(fixturesDirectory, '6-return-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -216,9 +218,9 @@ test('parses the `@returns` tag', async function (t) {
   ])
 })
 
-test('parses the `@returns` tag', async function (t) {
+test('parses the `@category` tag', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '7-category-tag.ts')
+  const filePath = resolve(fixturesDirectory, '7-category-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -253,7 +255,7 @@ test('parses the `@returns` tag', async function (t) {
 
 test('parses multiple functions', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '8-multiple-functions.ts')
+  const filePath = resolve(fixturesDirectory, '8-multiple-functions.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -297,7 +299,7 @@ test('parses multiple functions', async function (t) {
 
 test('sorts functions in ascending order of their `@weight` tag', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '9-weight-tag.ts')
+  const filePath = resolve(fixturesDirectory, '9-weight-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [
@@ -310,7 +312,7 @@ test('sorts functions in ascending order of their `@weight` tag', async function
         type: 'void'
       },
       tags: {
-        weight: 1
+        weight: '1'
       },
       typeParameters: []
     },
@@ -336,7 +338,7 @@ test('sorts functions in ascending order of their `@weight` tag', async function
         type: 'number'
       },
       tags: {
-        weight: 2
+        weight: '2'
       },
       typeParameters: []
     }
@@ -345,7 +347,7 @@ test('sorts functions in ascending order of their `@weight` tag', async function
 
 test('ignores functions with the `@ignore` tag', async function (t) {
   t.plan(2)
-  const filePath = path.resolve(fixturesDirectory, '10-ignore-tag.ts')
+  const filePath = resolve(fixturesDirectory, '10-ignore-tag.ts')
   t.true((await fs.pathExists(filePath)) === true)
   const functionsData = await parseExportedFunctionsAsync([filePath])
   t.deepEqual(functionsData, [

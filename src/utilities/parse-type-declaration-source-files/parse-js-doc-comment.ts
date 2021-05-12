@@ -1,12 +1,10 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { TagsData } from '../../types'
-import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind'
-import { traverseNode } from './traverse-node'
+import { TagsData } from '../../types.js'
+import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
+import { traverseNode } from './traverse-node.js'
 
-export function parseJsDocComment(
-  node: ts.Node
-): null | {
+export function parseJsDocComment(node: ts.Node): null | {
   description: null | string
   parameters: null | TagsData
   returnType: null | string

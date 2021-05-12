@@ -1,6 +1,6 @@
-import * as ts from 'typescript'
+import ts from 'typescript'
 
-import { Operation } from './operation'
+import { Operation } from './operation.js'
 
 export function isKind(kind: ts.SyntaxKind): Operation {
   return function (node: ts.Node): null | ts.Node {

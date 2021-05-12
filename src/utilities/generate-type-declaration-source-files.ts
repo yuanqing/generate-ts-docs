@@ -1,6 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
-import * as ts from 'typescript'
+import fs from 'fs'
+import { dirname, join } from 'path'
+import ts from 'typescript'
 
 export function generateTypeDeclarationSourceFiles(
   filePaths: Array<string>,
@@ -51,7 +51,7 @@ function resolveCompilerOptions(
     removeComments: false
   }
   if (tsconfigFilePath === null) {
-    const defaultTsConfigFilePath = path.join(process.cwd(), 'tsconfig.json')
+    const defaultTsConfigFilePath = join(process.cwd(), 'tsconfig.json')
     if (fs.existsSync(defaultTsConfigFilePath) === false) {
       return options
     }
@@ -81,7 +81,7 @@ function readTsConfigCompilerOptions(
   }
   const { errors, options } = ts.convertCompilerOptionsFromJson(
     tsConfig.config.compilerOptions,
-    path.dirname(tsconfigFilePath)
+    dirname(tsconfigFilePath)
   )
   if (errors.length > 0) {
     throw errors

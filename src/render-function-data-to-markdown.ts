@@ -1,5 +1,5 @@
-import { FunctionData, ParameterData } from './types'
-import { createFunctionTitle } from './utilities/create-function-title'
+import { FunctionData, ParameterData } from './types.js'
+import { createFunctionTitle } from './utilities/create-function-title.js'
 
 const indentSize = 2
 
