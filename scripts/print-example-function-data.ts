@@ -6,7 +6,7 @@ import { parseExportedFunctionsAsync } from '../src'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-async function main() {
+async function main(): Promise<void> {
   const functionsData = await parseExportedFunctionsAsync([
     resolve(__dirname, '..', 'example', 'example.ts')
   ])

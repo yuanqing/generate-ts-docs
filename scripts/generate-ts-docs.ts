@@ -7,7 +7,7 @@ import {
   renderCategoryToMarkdown
 } from '../src/index.js'
 
-async function main() {
+async function main(): Promise<void> {
   const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])
   const categories = createCategories(functionsData)
   console.log(renderCategoriesToMarkdownToc(categories))

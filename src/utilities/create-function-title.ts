@@ -4,12 +4,14 @@ export function createFunctionTitle(
   name: string,
   parametersData: Array<ParameterData>
 ): string {
-  const parameters = parametersData.map(function ({ name }: ParameterData) {
+  const parameters = parametersData.map(function ({
+    name
+  }: ParameterData): string {
     return name
   })
   const firstOptionalIndex = parametersData.findIndex(function ({
     optional
-  }: ParameterData) {
+  }: ParameterData): boolean {
     return optional === true
   })
   if (firstOptionalIndex === -1) {

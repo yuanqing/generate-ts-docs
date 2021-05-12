@@ -9,7 +9,9 @@ function getSiblingNodeFactory(offset: -1 | 1) {
   return function (): Operation {
     return function (node: ts.Node): null | ts.Node {
       const siblingNodes = node.parent.getChildren()
-      const index = siblingNodes.findIndex(function (siblingNode: ts.Node) {
+      const index = siblingNodes.findIndex(function (
+        siblingNode: ts.Node
+      ): boolean {
         return siblingNode === node
       })
       if (index === -1) {

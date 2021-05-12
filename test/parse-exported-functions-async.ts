@@ -20,7 +20,7 @@ test('throws if no files match the given globs', async function (t) {
   }
 })
 
-test('parses function expressed as a function declaration (`function add`)', async function (t) {
+test('parses function expressed as a function declaration', async function (t) {
   t.plan(2)
   const filePath = resolve(fixturesDirectory, '1-function-declaration.ts')
   t.true((await fs.pathExists(filePath)) === true)
@@ -53,7 +53,7 @@ test('parses function expressed as a function declaration (`function add`)', asy
   ])
 })
 
-test('parses function expressed as a variable statement eg. `const foo = function`', async function (t) {
+test('parses function expressed as a variable statement', async function (t) {
   t.plan(2)
   const filePath = resolve(fixturesDirectory, '2-variable-statement.ts')
   t.true((await fs.pathExists(filePath)) === true)

@@ -31,14 +31,17 @@ export function createCategories(functionsData: Array<FunctionData>): Array<{
     }
     result[name].push(functionData)
   }
-  const categories = []
+  const categories: Array<{
+    functionsData: Array<FunctionData>
+    name: string
+  }> = []
   for (const name in result) {
     categories.push({
       functionsData: result[name],
       name
     })
   }
-  return categories.sort(function (a, b) {
+  return categories.sort(function (a, b): number {
     return a.name.localeCompare(b.name)
   })
 }

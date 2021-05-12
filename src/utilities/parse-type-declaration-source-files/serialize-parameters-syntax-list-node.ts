@@ -14,13 +14,15 @@ export function serializeParametersSyntaxListNode(
   node: ts.Node,
   parametersJsDoc: null | TagsData
 ): Array<ParameterData> {
-  const childNodes = node.getChildren().filter(function (node: ts.Node) {
-    return (
-      node.kind === ts.SyntaxKind.Parameter ||
-      node.kind === ts.SyntaxKind.PropertySignature
-    )
-  })
-  return childNodes.map(function (childNode: ts.Node) {
+  const childNodes = node
+    .getChildren()
+    .filter(function (node: ts.Node): boolean {
+      return (
+        node.kind === ts.SyntaxKind.Parameter ||
+        node.kind === ts.SyntaxKind.PropertySignature
+      )
+    })
+  return childNodes.map(function (childNode: ts.Node): ParameterData {
     const questionTokenNode = traverseNode(childNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
       getPreviousSiblingNode(),

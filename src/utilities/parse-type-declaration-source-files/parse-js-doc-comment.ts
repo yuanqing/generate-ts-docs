@@ -58,7 +58,7 @@ function parseReturnTypeDescription(node: ts.Node): null | string {
 function parseParameterDescriptions(node: ts.Node): null | TagsData {
   const jsDocParameterTagNodes = node
     .getChildren()
-    .filter(function (node: ts.Node) {
+    .filter(function (node: ts.Node): boolean {
       return node.kind === ts.SyntaxKind.JSDocParameterTag
     })
   return jsDocParameterTagNodes.length === 0
@@ -67,9 +67,11 @@ function parseParameterDescriptions(node: ts.Node): null | TagsData {
 }
 
 function parseTags(node: ts.Node): null | TagsData {
-  const jsDocTagNodes = node.getChildren().filter(function (node: ts.Node) {
-    return node.kind === ts.SyntaxKind.JSDocTag
-  })
+  const jsDocTagNodes = node
+    .getChildren()
+    .filter(function (node: ts.Node): boolean {
+      return node.kind === ts.SyntaxKind.JSDocTag
+    })
   return jsDocTagNodes.length === 0
     ? null
     : parseJsDocTagNodes(jsDocTagNodes, 0)
