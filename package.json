@@ -84,6 +84,6 @@
   "prettier": "eslint-config-yuanqing/prettier",
   "simple-git-hooks": {
     "pre-commit": "yarn run lint-staged",
-    "pre-push": "yarn run lint && yarn run fix && yarn run test"
+    "pre-push": "yarn run lint && yarn run fix && yarn run build && yarn run test"
   }
 }
