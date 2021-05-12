@@ -2,9 +2,9 @@ import * as fs from 'fs-extra'
 import * as path from 'path'
 import { test } from 'tap'
 
-import { parseExportedFunctionsAsync } from '../parse-exported-functions-async'
+import { parseExportedFunctionsAsync } from '../src/parse-exported-functions-async'
 
-const fixturesDirectory = path.resolve(__dirname, '..', '__fixtures__')
+const fixturesDirectory = path.resolve(__dirname, 'fixtures')
 
 test('throws if no files match the given globs', async function (t) {
   t.plan(2)

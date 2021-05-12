@@ -11,6 +11,5 @@
     "target": "es2020",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["./src/**/__fixtures__/**/*", "./src/**/__tests__/**/*"]
+  "include": ["./src/**/*.ts"]
 }
