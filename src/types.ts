@@ -2,6 +2,7 @@ export type FunctionData = {
   description: null | string
   name: string
   parameters: Array<ParameterData>
+  typeParameters: Array<string>
   returnType: null | ReturnTypeData
   tags: null | TagsData
 }

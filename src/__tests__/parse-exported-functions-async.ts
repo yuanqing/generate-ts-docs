@@ -45,7 +45,8 @@ test('parses function expressed as a function declaration (`function add`)', asy
         description: null,
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -77,7 +78,8 @@ test('parses function expressed as a variable statement eg. `const foo = functio
         description: null,
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -109,7 +111,8 @@ test('parses optional parameters', async function (t) {
         description: null,
         type: '{\n  x?: unknown;\n  y?: unknown;\n}'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -141,7 +144,8 @@ test('parses the function description', async function (t) {
         description: null,
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -173,7 +177,8 @@ test('parses the `@param` tag', async function (t) {
         description: null,
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -205,7 +210,8 @@ test('parses the `@returns` tag', async function (t) {
         description: 'The sum of `x` and `y`.',
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -239,7 +245,8 @@ test('parses the `@returns` tag', async function (t) {
       },
       tags: {
         category: 'Math'
-      }
+      },
+      typeParameters: []
     }
   ])
 })
@@ -271,7 +278,8 @@ test('parses multiple functions', async function (t) {
         description: null,
         type: 'number'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     },
     {
       description: null,
@@ -281,7 +289,8 @@ test('parses multiple functions', async function (t) {
         description: null,
         type: 'void'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })
@@ -302,7 +311,8 @@ test('sorts functions in ascending order of their `@weight` tag', async function
       },
       tags: {
         weight: 1
-      }
+      },
+      typeParameters: []
     },
     {
       description: null,
@@ -327,7 +337,8 @@ test('sorts functions in ascending order of their `@weight` tag', async function
       },
       tags: {
         weight: 2
-      }
+      },
+      typeParameters: []
     }
   ])
 })
@@ -346,7 +357,8 @@ test('ignores functions with the `@ignore` tag', async function (t) {
         description: null,
         type: 'void'
       },
-      tags: null
+      tags: null,
+      typeParameters: []
     }
   ])
 })

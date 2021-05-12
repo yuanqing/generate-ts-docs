@@ -70,6 +70,7 @@ export function serializeVariableStatementNode(
       description: jsDocComment.returnType,
       type: normalizeReturnTypeText(returnTypeNode.getText())
     },
-    tags: jsDocComment.tags
+    tags: jsDocComment.tags,
+    typeParameters: []
   }
 }
