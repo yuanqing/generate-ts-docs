@@ -23,7 +23,7 @@ export function parseJsDocComment(node: ts.Node): null | {
   }
   const tags = parseTags(jsDocCommentNode)
   if (tags !== null && typeof tags.ignore !== 'undefined') {
-    // has `@ignore` tag, so return null
+    // Has `@ignore` tag, so return `null`
     return null
   }
   const description = (jsDocCommentNode as ts.JSDoc).comment

@@ -2,9 +2,9 @@ export type FunctionData = {
   description: null | string
   name: string
   parameters: Array<ParameterData>
-  typeParameters: Array<string>
   returnType: null | ReturnTypeData
   tags: null | TagsData
+  typeParameters: Array<TypeParameterData>
 }
 
 export type ParameterData = {
@@ -25,3 +25,9 @@ export type ReturnTypeData = {
 }
 
 export type TagsData = Record<string, null | string>
+
+export type TypeParameterData = {
+  name: string
+  defaultType: null | string
+  type: null | string
+}

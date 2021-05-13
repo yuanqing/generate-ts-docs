@@ -10,14 +10,41 @@ import {
 import { isKind } from './operations/is-kind.js'
 import { parseJsDocComment } from './parse-js-doc-comment.js'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
+
+/*
+AST of `node`:
+- JSDocComment
+- SyntaxList
+  - ExportKeyword
+  - DeclareKeyword
+- VariableDeclarationList
+  - ConstKeyword
+  - SyntaxList
+    - VariableDeclaration <= `variableDeclarationNode`
+      - Identifier <= `identifierNode`
+      - ColonToken
+      - FunctionType <= `functionTypeNode`
+        - LessThanToken
+        - SyntaxList <= `typeParametersSyntaxListNode`
+          - ...
+        - GreaterThanToken
+        - OpenParenToken
+        - SyntaxList <= `parametersSyntaxListNode`
+          - ...
+        - CloseParenToken
+        - EqualsGreaterThanToken
+        - ? <= `returnTypeNode`
+- SemicolonToken
+*/
 
 export function serializeVariableStatementNode(
   node: ts.Node
 ): null | FunctionData {
   const jsDocComment = parseJsDocComment(node)
   if (jsDocComment === null) {
-    return null
+    return null // Has `@ignore` tag
   }
   const variableDeclarationNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclarationList),
@@ -35,30 +62,34 @@ export function serializeVariableStatementNode(
   if (identifierNode === null) {
     throw new Error('`identifierNode` is null')
   }
-  const name = identifierNode.getText()
-  const typeNode = traverseNode(variableDeclarationNode, [
+  const functionTypeNode = traverseNode(variableDeclarationNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.FunctionType)
   ])
-  if (typeNode === null) {
-    throw new Error('`typeNode` is null')
+  if (functionTypeNode === null) {
+    throw new Error('`functionTypeNode` is null')
   }
-  const returnTypeNode = traverseNode(typeNode, [
+  const typeParametersSyntaxListNode = traverseNode(functionTypeNode, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.LessThanToken),
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.SyntaxList)
+  ])
+  const parametersSyntaxListNodes = traverseNode(functionTypeNode, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.SyntaxList)
+  ])
+  const returnTypeNode = traverseNode(functionTypeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.EqualsGreaterThanToken),
     getNextSiblingNode()
   ])
   if (returnTypeNode === null) {
     throw new Error('`returnTypeNode` is null')
   }
-  const parametersSyntaxListNodes = traverseNode(typeNode, [
-    findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
-    getNextSiblingNode(),
-    isKind(ts.SyntaxKind.SyntaxList)
-  ])
   return {
     description: jsDocComment.description,
-    name,
+    name: identifierNode.getText(),
     parameters:
       parametersSyntaxListNodes === null
         ? []
@@ -71,6 +102,9 @@ export function serializeVariableStatementNode(
       type: normalizeTypeString(returnTypeNode.getText())
     },
     tags: jsDocComment.tags,
-    typeParameters: []
+    typeParameters:
+      typeParametersSyntaxListNode === null
+        ? []
+        : serializeTypeParametersSyntaxListNode(typeParametersSyntaxListNode)
   }
 }

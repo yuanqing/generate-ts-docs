@@ -10,27 +10,52 @@ import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax
 import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
 
+/*
+AST of `node`:
+  - JSDocComment
+    - ...
+  - SyntaxList
+    - ExportKeyword
+    - DeclareKeyword
+  - FunctionKeyword
+  - Identifier <= `identifierNode`
+  - LessThanToken
+  - SyntaxList <= `typeParametersSyntaxListNode`
+    - ...
+  - GreaterThanToken
+  - OpenParenToken
+  - SyntaxList <= `parametersSyntaxListNode`
+    - ...
+  - CloseParenToken
+  - ColonToken
+  - ? <= `returnTypeNode`
+    - ...
+  - SemicolonToken
+*/
+
 export function serializeFunctionDeclarationNode(
   node: ts.Node
 ): null | FunctionData {
   const jsDocComment = parseJsDocComment(node)
   if (jsDocComment === null) {
-    return null
+    return null // Has `@ignore` tag
   }
-  const functionIdentifierNode = traverseNode(node, [
+  const identifierNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.Identifier)
   ])
-  if (functionIdentifierNode === null) {
+  if (identifierNode === null) {
     throw new Error('`functionIdentifierNode` is null')
   }
   const typeParametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
-    getNextSiblingNode(), // `Identifier`
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.Identifier),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.LessThanToken),
-    getNextSiblingNode()
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.SyntaxList)
   ])
   const parametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
@@ -38,16 +63,17 @@ export function serializeFunctionDeclarationNode(
     isKind(ts.SyntaxKind.SyntaxList)
   ])
   const returnTypeNode = traverseNode(node, [
-    findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
+    findFirstChildNodeOfKind(ts.SyntaxKind.CloseParenToken),
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.ColonToken),
     getNextSiblingNode()
   ])
   if (returnTypeNode === null) {
     throw new Error('`returnTypeNode` is null')
   }
-  const name = functionIdentifierNode.getText()
   return {
     description: jsDocComment.description,
-    name,
+    name: identifierNode.getText(),
     parameters:
       parametersSyntaxListNode === null
         ? []
