@@ -71,7 +71,8 @@
     ],
     "nonSemVerExperiments": {
       "configurableModuleFormat": true
-    }
+    },
+    "timeout": "2m"
   },
   "eslintConfig": {
     "extends": "eslint-config-yuanqing"
