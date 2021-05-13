@@ -11,7 +11,9 @@ export function createFunctionTitle(
     return name
   })
   const typeParametersString =
-    typeParameterNames.length === 0 ? '' : `<${typeParameterNames.join(', ')}>`
+    typeParameterNames.length === 0
+      ? ''
+      : `&lt;${typeParameterNames.join(', ')}&gt;`
   const parameterNames = parameters.map(function ({
     name
   }: ParameterData): string {

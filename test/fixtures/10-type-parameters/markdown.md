@@ -1,4 +1,4 @@
-# foo<A, B, C>(x, y, z)
+# foo&lt;A, B, C&gt;(x, y, z)
 
 ***Type parameters***
 
