@@ -1,7 +1,7 @@
 import ts from 'typescript'
 
 import { FunctionData } from '../../types.js'
-import { normalizeReturnTypeText } from './normalize-return-type-text.js'
+import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import {
   getNextSiblingNode,
@@ -68,7 +68,7 @@ export function serializeVariableStatementNode(
           ),
     returnType: {
       description: jsDocComment.returnType,
-      type: normalizeReturnTypeText(returnTypeNode.getText())
+      type: normalizeTypeString(returnTypeNode.getText())
     },
     tags: jsDocComment.tags,
     typeParameters: []

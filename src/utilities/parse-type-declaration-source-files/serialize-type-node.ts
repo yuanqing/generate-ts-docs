@@ -1,6 +1,7 @@
 import ts from 'typescript'
 
 import { ObjectData, TagsData } from '../../types.js'
+import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
@@ -14,7 +15,7 @@ export function serializeTypeNode(
   if (node.kind === ts.SyntaxKind.TypeLiteral) {
     return serializeTypeLiteralNode(node, parametersJsDoc)
   }
-  return normalizeText(node.getText())
+  return normalizeTypeString(node.getText())
 }
 
 function serializeTypeLiteralNode(
@@ -36,8 +37,4 @@ function serializeTypeLiteralNode(
     ),
     type: 'object'
   }
-}
-
-function normalizeText(text: string) {
-  return text.replace(/\n+/g, ' ').replace(/ +/g, ' ').trim()
 }

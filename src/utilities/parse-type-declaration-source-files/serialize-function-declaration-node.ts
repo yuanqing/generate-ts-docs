@@ -1,12 +1,13 @@
 import ts from 'typescript'
 
 import { FunctionData } from '../../types.js'
-import { normalizeReturnTypeText } from './normalize-return-type-text.js'
+import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
 import { parseJsDocComment } from './parse-js-doc-comment.js'
 import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
 
 export function serializeFunctionDeclarationNode(
@@ -24,6 +25,13 @@ export function serializeFunctionDeclarationNode(
   if (functionIdentifierNode === null) {
     throw new Error('`functionIdentifierNode` is null')
   }
+  const typeParametersSyntaxListNode = traverseNode(node, [
+    findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
+    getNextSiblingNode(), // `Identifier`
+    getNextSiblingNode(),
+    isKind(ts.SyntaxKind.LessThanToken),
+    getNextSiblingNode()
+  ])
   const parametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
     getNextSiblingNode(),
@@ -49,9 +57,12 @@ export function serializeFunctionDeclarationNode(
           ),
     returnType: {
       description: jsDocComment.returnType,
-      type: normalizeReturnTypeText(returnTypeNode.getText())
+      type: normalizeTypeString(returnTypeNode.getText())
     },
     tags: jsDocComment.tags,
-    typeParameters: []
+    typeParameters:
+      typeParametersSyntaxListNode === null
+        ? []
+        : serializeTypeParametersSyntaxListNode(typeParametersSyntaxListNode)
   }
 }
