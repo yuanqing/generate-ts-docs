@@ -20,7 +20,7 @@
       "description": null,
       "type": "{\n  x?: unknown;\n  y?: unknown;\n}"
     },
-    "tags": null,
+    "jsDocTags": null,
     "typeParameters": []
   }
 ]

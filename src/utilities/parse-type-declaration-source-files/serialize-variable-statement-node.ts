@@ -8,8 +8,8 @@ import {
   getPreviousSiblingNode
 } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
-import { parseJsDocComment } from './parse-js-doc-comment.js'
-import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { parseJsDoc } from './parse-js-doc.js'
+import { serializeSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
 import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
 
@@ -42,8 +42,8 @@ AST of `node`:
 export function serializeVariableStatementNode(
   node: ts.Node
 ): null | FunctionData {
-  const jsDocComment = parseJsDocComment(node)
-  if (jsDocComment === null) {
+  const jsDoc = parseJsDoc(node)
+  if (jsDoc === null) {
     return null // Has `@ignore` tag
   }
   const variableDeclarationNode = traverseNode(node, [
@@ -88,20 +88,17 @@ export function serializeVariableStatementNode(
     throw new Error('`returnTypeNode` is null')
   }
   return {
-    description: jsDocComment.description,
+    description: jsDoc.description,
+    jsDocTags: jsDoc.tags,
     name: identifierNode.getText(),
     parameters:
       parametersSyntaxListNodes === null
         ? []
-        : serializeParametersSyntaxListNode(
-            parametersSyntaxListNodes,
-            jsDocComment.parameters
-          ),
+        : serializeSyntaxListNode(parametersSyntaxListNodes, jsDoc.parameters),
     returnType: {
-      description: jsDocComment.returnType,
+      description: jsDoc.returnType,
       type: normalizeTypeString(returnTypeNode.getText())
     },
-    tags: jsDocComment.tags,
     typeParameters:
       typeParametersSyntaxListNode === null
         ? []

@@ -1,6 +1,6 @@
 import ts from 'typescript'
 
-import { ParameterData, TagsData } from '../../types.js'
+import { JsDocTagsData, ParameterData } from '../../types.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import {
   getNextSiblingNode,
@@ -12,27 +12,30 @@ import { traverseNode } from './traverse-node.js'
 
 /*
 AST of `node`:
-- Parameter
+- Parameter | PropertySignature
   - Identifier <= `identifierNode`
   - QuestionToken <= `questionTokenNode`
   - ColonToken
   - ? <= `typeNode`
 - CommaToken
-- Parameter
+- Parameter | PropertySignature
   - ...
 - CommaToken
 - ...
-- Parameter
+- Parameter | PropertySignature
 */
 
-export function serializeParametersSyntaxListNode(
+export function serializeSyntaxListNode(
   node: ts.Node,
-  parametersJsDoc: null | TagsData
+  jsDocData: null | JsDocTagsData
 ): Array<ParameterData> {
   const parameterNodes = node
     .getChildren()
     .filter(function (node: ts.Node): boolean {
-      return node.kind === ts.SyntaxKind.Parameter
+      return (
+        node.kind === ts.SyntaxKind.Parameter ||
+        node.kind === ts.SyntaxKind.PropertySignature
+      ) // When `node` is an object literal type
     })
   return parameterNodes.map(function (parameterNode: ts.Node): ParameterData {
     const identifierNode = traverseNode(parameterNode, [
@@ -54,24 +57,27 @@ export function serializeParametersSyntaxListNode(
       throw new Error('`typeNode` is null')
     }
     const name = identifierNode.getText()
-    const description = parametersJsDoc === null ? null : parametersJsDoc[name]
+    const description = jsDocData === null ? null : jsDocData[name]
     return {
       description: typeof description === 'undefined' ? null : description,
       name,
       optional: questionTokenNode !== null,
       type: serializeTypeNode(
         typeNode,
-        parametersJsDoc === null
+        jsDocData === null
           ? null
-          : transformParametersJsDoc(parametersJsDoc, `${name}.`)
+          : transformParametersJsDoc(jsDocData, `${name}.`)
       )
     }
   })
 }
 
 // Pass in the relevant subset of items in `parametersJsDoc`
-function transformParametersJsDoc(parametersJsDoc: TagsData, prefix: string) {
-  const result: TagsData = {}
+function transformParametersJsDoc(
+  parametersJsDoc: JsDocTagsData,
+  prefix: string
+) {
+  const result: JsDocTagsData = {}
   for (const key in parametersJsDoc) {
     if (key.indexOf(prefix) === 0) {
       result[key.slice(prefix.length)] = parametersJsDoc[key]

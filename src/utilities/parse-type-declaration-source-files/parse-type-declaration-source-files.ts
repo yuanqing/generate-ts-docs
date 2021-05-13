@@ -50,14 +50,14 @@ function sortFunctionsDataComparator(a: FunctionData, b: FunctionData): number {
 
 function parseWeight(functionData: FunctionData): null | number {
   if (
-    typeof functionData.tags === 'undefined' ||
-    functionData.tags === null ||
-    typeof functionData.tags.weight === 'undefined' ||
-    functionData.tags.weight === null
+    typeof functionData.jsDocTags === 'undefined' ||
+    functionData.jsDocTags === null ||
+    typeof functionData.jsDocTags.weight === 'undefined' ||
+    functionData.jsDocTags.weight === null
   ) {
     return null
   }
-  const weight = parseFloat(functionData.tags.weight)
+  const weight = parseFloat(functionData.jsDocTags.weight)
   if (isNaN(weight) === true) {
     return null
   }

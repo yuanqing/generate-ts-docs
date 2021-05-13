@@ -15,7 +15,7 @@ const fixtureDirectoryPaths = globby.sync(
 for (const fixtureDirectoryPath of fixtureDirectoryPaths) {
   const testName = basename(fixtureDirectoryPath)
   // Uncomment below to run a specific test
-  // if (testName !== '11-variable-statement') {
+  // if (testName !== '1-function-declaration') {
   //   continue
   // }
   test(testName, async function (t) {

@@ -5,8 +5,8 @@ import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
-import { parseJsDocComment } from './parse-js-doc-comment.js'
-import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { parseJsDoc } from './parse-js-doc.js'
+import { serializeSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
 import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
 
@@ -35,8 +35,8 @@ AST of `node`:
 export function serializeFunctionDeclarationNode(
   node: ts.Node
 ): null | FunctionData {
-  const jsDocComment = parseJsDocComment(node)
-  if (jsDocComment === null) {
+  const jsDoc = parseJsDoc(node)
+  if (jsDoc === null) {
     return null // Has `@ignore` tag
   }
   const identifierNode = traverseNode(node, [
@@ -71,20 +71,17 @@ export function serializeFunctionDeclarationNode(
     throw new Error('`returnTypeNode` is null')
   }
   return {
-    description: jsDocComment.description,
+    description: jsDoc.description,
+    jsDocTags: jsDoc.tags,
     name: identifierNode.getText(),
     parameters:
       parametersSyntaxListNode === null
         ? []
-        : serializeParametersSyntaxListNode(
-            parametersSyntaxListNode,
-            jsDocComment.parameters
-          ),
+        : serializeSyntaxListNode(parametersSyntaxListNode, jsDoc.parameters),
     returnType: {
-      description: jsDocComment.returnType,
+      description: jsDoc.returnType,
       type: normalizeTypeString(returnTypeNode.getText())
     },
-    tags: jsDocComment.tags,
     typeParameters:
       typeParametersSyntaxListNode === null
         ? []

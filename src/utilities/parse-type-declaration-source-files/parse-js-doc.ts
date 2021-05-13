@@ -1,15 +1,15 @@
 import ts from 'typescript'
 
-import { TagsData } from '../../types.js'
+import { JsDocTagsData } from '../../types.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { traverseNode } from './traverse-node.js'
 
 // Returns `null` if the JSDoc comment contains an `@ignore` tag
-export function parseJsDocComment(node: ts.Node): null | {
+export function parseJsDoc(node: ts.Node): null | {
   description: null | string
-  parameters: null | TagsData
+  parameters: null | JsDocTagsData
   returnType: null | string
-  tags: null | TagsData
+  tags: null | JsDocTagsData
 } {
   const jsDocCommentNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.JSDocComment)
@@ -57,7 +57,7 @@ function parseReturnTypeDescription(node: ts.Node): null | string {
   return returnTypeDescription
 }
 
-function parseParameterDescriptions(node: ts.Node): null | TagsData {
+function parseParameterDescriptions(node: ts.Node): null | JsDocTagsData {
   const jsDocParameterTagNodes = node
     .getChildren()
     .filter(function (node: ts.Node): boolean {
@@ -68,7 +68,7 @@ function parseParameterDescriptions(node: ts.Node): null | TagsData {
     : parseJsDocTagNodes(jsDocParameterTagNodes, 1)
 }
 
-function parseTags(node: ts.Node): null | TagsData {
+function parseTags(node: ts.Node): null | JsDocTagsData {
   const jsDocTagNodes = node
     .getChildren()
     .filter(function (node: ts.Node): boolean {
@@ -82,8 +82,8 @@ function parseTags(node: ts.Node): null | TagsData {
 function parseJsDocTagNodes(
   jsDocTagNodes: Array<ts.Node>,
   keyIndex: number
-): TagsData {
-  const result: TagsData = {}
+): JsDocTagsData {
+  const result: JsDocTagsData = {}
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
     const comment = (jsDocTagNode as ts.JSDocTag).comment

@@ -7,7 +7,7 @@
       "description": null,
       "type": "void"
     },
-    "tags": {
+    "jsDocTags": {
       "weight": "1"
     },
     "typeParameters": []
@@ -33,7 +33,7 @@
       "description": null,
       "type": "number"
     },
-    "tags": {
+    "jsDocTags": {
       "weight": "2"
     },
     "typeParameters": []

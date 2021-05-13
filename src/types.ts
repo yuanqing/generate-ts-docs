@@ -3,8 +3,15 @@ export type FunctionData = {
   name: string
   parameters: Array<ParameterData>
   returnType: null | ReturnTypeData
-  tags: null | TagsData
+  jsDocTags: null | JsDocTagsData
   typeParameters: Array<TypeParameterData>
+}
+
+export type JsDocTagsData = Record<string, null | string>
+
+export type ObjectData = {
+  keys: Array<ParameterData>
+  type: 'object'
 }
 
 export type ParameterData = {
@@ -14,17 +21,10 @@ export type ParameterData = {
   type: string | ObjectData
 }
 
-export type ObjectData = {
-  keys: Array<ParameterData>
-  type: 'object'
-}
-
 export type ReturnTypeData = {
   description: null | string
   type: string
 }
-
-export type TagsData = Record<string, null | string>
 
 export type TypeParameterData = {
   name: string

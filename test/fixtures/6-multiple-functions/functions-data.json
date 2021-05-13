@@ -20,7 +20,7 @@
       "description": null,
       "type": "number"
     },
-    "tags": null,
+    "jsDocTags": null,
     "typeParameters": []
   },
   {
@@ -31,7 +31,7 @@
       "description": null,
       "type": "void"
     },
-    "tags": null,
+    "jsDocTags": null,
     "typeParameters": []
   }
 ]

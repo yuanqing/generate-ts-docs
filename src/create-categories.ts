@@ -13,14 +13,14 @@ export function createCategories(functionsData: Array<FunctionData>): Array<{
   const result: Record<string, Array<FunctionData>> = {}
   for (const functionData of functionsData) {
     if (
-      functionData.tags === null ||
-      typeof functionData.tags.category === 'undefined'
+      functionData.jsDocTags === null ||
+      typeof functionData.jsDocTags.category === 'undefined'
     ) {
       throw new Error(
         `Category not defined for function \`${functionData.name}\``
       )
     }
-    const name = functionData.tags.category
+    const name = functionData.jsDocTags.category
     if (name === null) {
       throw new Error(
         `Category not defined for function \`${functionData.name}\``

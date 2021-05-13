@@ -83,7 +83,8 @@ main()
 Now, let’s run the `generate-ts-docs.ts` script, piping its output to a file:
 
 ````sh
-$ npx ts-node generate-ts-docs.ts > README.md
+$ npm install --dev ts-node
+$ node --loader ts-node/esm generate-ts-docs.ts > README.md
 ````
 
 The output [`README.md`](/example/README.md) will be as follows:
@@ -161,6 +162,7 @@ type TypeParameterData = {
   - [renderCategoriesToMarkdownToc(categories)](#rendercategoriestomarkdowntoccategories)
   - [renderFunctionsDataToMarkdownToc(functionsData)](#renderfunctionsdatatomarkdowntocfunctionsdata)
 
+[]
 ### Functions data
 
 #### parseExportedFunctionsAsync(globs [, options])
@@ -177,8 +179,6 @@ without the `@weight` tag.
 
 - **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
 - **`options`** (`object`) – *Optional.*
-  - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file.
-Defaults to `./tsconfig.json`.
 
 ***Return type***
 
@@ -204,6 +204,9 @@ Array<{
 }>
 ```
 
+[]
+[]
+[]
 ### Markdown
 
 #### renderCategoryToMarkdown(category [, options])
@@ -211,11 +214,7 @@ Array<{
 ***Parameters***
 
 - **`category`** (`object`)
-  - **`name`** (`string`)
-  - **`functionsData`** (`Array<FunctionData>`)
 - **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the
-category name. Defaults to `1` (ie. `#`).
 
 ***Return type***
 
@@ -229,8 +228,6 @@ string
 
 - **`functionData`** (`FunctionData`)
 - **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the
-function name. Defaults to `1` (ie. `#`).
 
 ***Return type***
 

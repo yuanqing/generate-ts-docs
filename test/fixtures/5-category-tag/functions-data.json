@@ -20,7 +20,7 @@
       "description": null,
       "type": "number"
     },
-    "tags": {
+    "jsDocTags": {
       "category": "Math"
     },
     "typeParameters": []

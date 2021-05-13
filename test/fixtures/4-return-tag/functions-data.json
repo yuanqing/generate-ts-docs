@@ -20,7 +20,7 @@
       "description": "The sum of `x` and `y`.",
       "type": "number"
     },
-    "tags": null,
+    "jsDocTags": null,
     "typeParameters": []
   }
 ]

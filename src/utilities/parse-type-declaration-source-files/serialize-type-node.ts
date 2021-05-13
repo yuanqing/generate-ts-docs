@@ -1,16 +1,16 @@
 import ts from 'typescript'
 
-import { ObjectData, TagsData } from '../../types.js'
+import { JsDocTagsData, ObjectData } from '../../types.js'
 import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
-import { serializeParametersSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
+import { serializeSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
 import { traverseNode } from './traverse-node.js'
 
 export function serializeTypeNode(
   node: ts.Node,
-  parametersJsDoc: null | TagsData
+  parametersJsDoc: null | JsDocTagsData
 ): string | ObjectData {
   if (node.kind === ts.SyntaxKind.TypeLiteral) {
     return serializeTypeLiteralNode(node, parametersJsDoc)
@@ -20,7 +20,7 @@ export function serializeTypeNode(
 
 function serializeTypeLiteralNode(
   node: ts.Node,
-  parametersJsDoc: null | TagsData
+  parametersJsDoc: null | JsDocTagsData
 ): ObjectData {
   const parametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenBraceToken),
@@ -31,10 +31,7 @@ function serializeTypeLiteralNode(
     throw new Error('`parametersSyntaxListNodes` is null')
   }
   return {
-    keys: serializeParametersSyntaxListNode(
-      parametersSyntaxListNode,
-      parametersJsDoc
-    ),
+    keys: serializeSyntaxListNode(parametersSyntaxListNode, parametersJsDoc),
     type: 'object'
   }
 }
