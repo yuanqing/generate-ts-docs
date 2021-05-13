@@ -3,15 +3,15 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "lib": ["ES2020"],
     "module": "ES2020",
     "moduleResolution": "Node",
     "outDir": "./lib",
     "removeComments": true,
     "rootDir": "./src",
+    "sourceMap": true,
     "strict": true,
     "target": "ES2020",
-    "typeRoots": ["./node_modules/@types"]
+    "typeRoots": ["@types/node"]
   },
   "include": ["./src/**/*.ts"]
 }
