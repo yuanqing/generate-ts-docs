@@ -1,7 +1,4 @@
 .DS_Store
-.nyc_output/
-coverage/
 lib/
 node_modules/
-sandbox/
 *.log
