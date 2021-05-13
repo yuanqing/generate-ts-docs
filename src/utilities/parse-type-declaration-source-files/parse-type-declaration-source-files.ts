@@ -11,14 +11,14 @@ export function parseTypeDeclarationSourceFiles(
   for (const sourceFile of sourceFiles) {
     sourceFile.forEachChild(function (node: ts.Node) {
       if (node.kind === ts.SyntaxKind.FunctionDeclaration) {
-        const functionData = serializeFunctionDeclarationNode(node) // export function foo
+        const functionData = serializeFunctionDeclarationNode(node) // eg. `export function foo () {}`
         if (functionData !== null) {
           result.push(functionData)
         }
         return
       }
       if (node.kind === ts.SyntaxKind.VariableStatement) {
-        const functionData = serializeVariableStatementNode(node) // export const foo = function
+        const functionData = serializeVariableStatementNode(node) // eg. `export const foo = function () {}`
         if (functionData !== null) {
           result.push(functionData)
         }

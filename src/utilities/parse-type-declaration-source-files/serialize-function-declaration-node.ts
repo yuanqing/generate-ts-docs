@@ -29,7 +29,6 @@ AST of `node`:
   - CloseParenToken
   - ColonToken
   - ? <= `returnTypeNode`
-    - ...
   - SemicolonToken
 */
 

@@ -10,38 +10,55 @@ import { isKind } from './operations/is-kind.js'
 import { serializeTypeNode } from './serialize-type-node.js'
 import { traverseNode } from './traverse-node.js'
 
+/*
+AST of `node`:
+- Parameter
+  - Identifier <= `identifierNode`
+  - QuestionToken <= `questionTokenNode`
+  - ColonToken
+  - ? <= `typeNode`
+- CommaToken
+- Parameter
+  - ...
+- CommaToken
+- ...
+- Parameter
+*/
+
 export function serializeParametersSyntaxListNode(
   node: ts.Node,
   parametersJsDoc: null | TagsData
 ): Array<ParameterData> {
-  const childNodes = node
+  const parameterNodes = node
     .getChildren()
     .filter(function (node: ts.Node): boolean {
-      return (
-        node.kind === ts.SyntaxKind.Parameter ||
-        node.kind === ts.SyntaxKind.PropertySignature
-      )
+      return node.kind === ts.SyntaxKind.Parameter
     })
-  return childNodes.map(function (childNode: ts.Node): ParameterData {
-    const questionTokenNode = traverseNode(childNode, [
+  return parameterNodes.map(function (parameterNode: ts.Node): ParameterData {
+    const identifierNode = traverseNode(parameterNode, [
+      findFirstChildNodeOfKind(ts.SyntaxKind.Identifier)
+    ])
+    if (identifierNode === null) {
+      throw new Error('`identifierNode` is null')
+    }
+    const questionTokenNode = traverseNode(parameterNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
       getPreviousSiblingNode(),
       isKind(ts.SyntaxKind.QuestionToken)
     ])
-    const optional = questionTokenNode !== null
-    const name = parseIdentifierName(childNode)
-    const description = parametersJsDoc === null ? null : parametersJsDoc[name]
-    const typeNode = traverseNode(childNode, [
+    const typeNode = traverseNode(parameterNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
       getNextSiblingNode()
     ])
     if (typeNode === null) {
       throw new Error('`typeNode` is null')
     }
+    const name = identifierNode.getText()
+    const description = parametersJsDoc === null ? null : parametersJsDoc[name]
     return {
       description: typeof description === 'undefined' ? null : description,
       name,
-      optional,
+      optional: questionTokenNode !== null,
       type: serializeTypeNode(
         typeNode,
         parametersJsDoc === null
@@ -52,18 +69,7 @@ export function serializeParametersSyntaxListNode(
   })
 }
 
-function parseIdentifierName(node: ts.Node): string {
-  const result: Array<string> = []
-  for (const childNode of node.getChildren()) {
-    result.push(childNode.getText())
-    if (childNode.kind === ts.SyntaxKind.Identifier) {
-      break
-    }
-  }
-  return result.join('')
-}
-
-// pass in the relevant subset of items in `parametersJsDoc`
+// Pass in the relevant subset of items in `parametersJsDoc`
 function transformParametersJsDoc(parametersJsDoc: TagsData, prefix: string) {
   const result: TagsData = {}
   for (const key in parametersJsDoc) {
