@@ -118,9 +118,9 @@ type FunctionData = {
   description: null | string
   name: string
   parameters: Array<ParameterData>
-  typeParameters: Array<string>
   returnType: null | ReturnTypeData
   tags: null | TagsData
+  typeParameters: Array<TypeParameterData>
 }
 
 type ParameterData = {
@@ -141,6 +141,12 @@ type ReturnTypeData = {
 }
 
 type TagsData = Record<string, null | string>
+
+type TypeParameterData = {
+  name: string
+  defaultType: null | string
+  type: null | string
+}
 ```
 <!-- ``` end -->
 
@@ -240,7 +246,10 @@ Generate a Markdown table of contents for the given `categories`.
 
 ***Parameters***
 
-- **`categories`** (`Array<{ name: string; functionsData: Array<FunctionData>; }>`)
+- **`categories`** (`Array<{
+  name: string;
+  functionsData: Array<FunctionData>;
+}>`)
 
 ***Return type***
 
@@ -276,6 +285,8 @@ The [`parseExportedFunctionsAsync`](/src/parse-exported-functions-async.ts) func
 
 1. Generate [type declarations](https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html) for the given TypeScript source files.
 2. Traverse and extract relevant information from the [AST](https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API) of the generated type declarations.
+
+(The [TypeScript AST Viewer](https://ts-ast-viewer.com/) tool is useful for figuring out how nodes should be parsed.)
 
 ## See also
 
