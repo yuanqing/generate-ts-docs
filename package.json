@@ -28,10 +28,10 @@
   ],
   "scripts": {
     "build": "yarn run clean && tsc",
-    "docs": "yarn run example && markdown-interpolate ./README.md",
     "clean": "rm -rf './*.log' ./.nyc_output ./build ./coverage ./lib",
-    "example": "cd example && ts-node ./scripts/generate-ts-docs.ts > README.md",
+    "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm ./generate-ts-docs.ts > README.md",
     "fix": "eslint --fix './{example,scripts,src,test}/**/*.ts'",
+    "generate-docs": "yarn run example && markdown-interpolate ./README.md",
     "lint": "eslint './{example,scripts,src,test}/**/*.ts'",
     "postinstall": "simple-git-hooks && yarn run build",
     "prepublishOnly": "yarn run build",

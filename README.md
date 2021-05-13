@@ -12,7 +12,7 @@ $ npm install --save-dev generate-ts-docs
 
 Suppose that we have the following (highly contrived) toy [`example.ts`](/example/example.ts) source file:
 
-<!-- ```ts markdown-interpolate: cat example/example.ts -->
+<!-- ```ts markdown-interpolate: cat ./example/example.ts -->
 ```ts
 /**
  * Adds two numbers.
@@ -29,14 +29,16 @@ export function add(x: number, y: number): number {
 
 …and the following [`generate-ts-docs.ts`](/example/generate-ts-docs.ts) script:
 
-<!-- ```ts markdown-interpolate: sed 's/\.\.\/src/generate-ts-docs/' example/generate-ts-docs.ts -->
+<!-- ```ts markdown-interpolate: sed 's/\.\.\/src\/index\.js/generate-ts-docs/' ./example/generate-ts-docs.ts -->
 ```ts
+/* eslint-disable no-console */
+
 import {
   parseExportedFunctionsAsync,
   renderFunctionDataToMarkdown
 } from 'generate-ts-docs'
 
-async function main() {
+async function main(): Promise<void> {
   const functionsData = await parseExportedFunctionsAsync(['./example.ts'])
   for (const functionData of functionsData) {
     console.log(renderFunctionDataToMarkdown(functionData))
@@ -48,7 +50,7 @@ main()
 
 `parseExportedFunctionsAsync` receives an array of globs of TypeScript source files, and parses the functions in these files that have the [`export`](https://www.typescriptlang.org/docs/handbook/modules.html#export) keyword. It returns an array of `FunctionData` objects with the following shape:
 
-<!-- ```ts markdown-interpolate: ts-node scripts/print-example-function-data.ts -->
+<!-- ```ts markdown-interpolate: node --loader ts-node/esm ./scripts/print-example-function-data.ts -->
 ```ts
 [
   {
@@ -69,7 +71,8 @@ main()
       }
     ],
     returnType: { description: 'The sum of `x` and `y`.', type: 'number' },
-    tags: null
+    tags: null,
+    typeParameters: []
   }
 ]
 ```
@@ -109,12 +112,13 @@ number
 
 ## API
 
-<!-- ```ts markdown-interpolate: sed 's/export //' src/types.ts -->
+<!-- ```ts markdown-interpolate: sed 's/export //' ./src/types.ts -->
 ```ts
 type FunctionData = {
   description: null | string
   name: string
   parameters: Array<ParameterData>
+  typeParameters: Array<string>
   returnType: null | ReturnTypeData
   tags: null | TagsData
 }
@@ -136,11 +140,11 @@ type ReturnTypeData = {
   type: string
 }
 
-type TagsData = { [key: string]: null | string }
+type TagsData = Record<string, null | string>
 ```
 <!-- ``` end -->
 
-<!-- markdown-interpolate: ts-node scripts/generate-ts-docs.ts -->
+<!-- markdown-interpolate: node --loader ts-node/esm ./scripts/generate-ts-docs.ts -->
 - [**Functions data**](#functions-data)
   - [parseExportedFunctionsAsync(globs [, options])](#parseexportedfunctionsasyncglobs--options)
   - [createCategories(functionsData)](#createcategoriesfunctionsdata)

@@ -2,7 +2,7 @@ import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import util from 'util'
 
-import { parseExportedFunctionsAsync } from '../src'
+import { parseExportedFunctionsAsync } from '../src/index.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 

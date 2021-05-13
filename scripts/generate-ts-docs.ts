@@ -8,7 +8,10 @@ import {
 } from '../src/index.js'
 
 async function main(): Promise<void> {
-  const functionsData = await parseExportedFunctionsAsync(['./src/*.ts'])
+  const functionsData = await parseExportedFunctionsAsync([
+    './src/*.ts',
+    '!./src/index.ts'
+  ])
   const categories = createCategories(functionsData)
   console.log(renderCategoriesToMarkdownToc(categories))
   console.log()
