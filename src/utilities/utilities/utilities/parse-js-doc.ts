@@ -1,6 +1,6 @@
 import ts from 'typescript'
 
-import { JsDocTagsData } from '../../types.js'
+import { JsDocTagsData } from '../../../types.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { traverseNode } from './traverse-node.js'
 

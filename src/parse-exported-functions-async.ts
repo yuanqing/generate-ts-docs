@@ -2,7 +2,7 @@ import globby from 'globby'
 
 import { FunctionData } from './types.js'
 import { generateTypeDeclarationSourceFiles } from './utilities/generate-type-declaration-source-files.js'
-import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declaration-source-files/parse-type-declaration-source-files.js'
+import { parseTypeDeclarationSourceFiles } from './utilities/parse-type-declaration-source-files.js'
 
 /**
  * Parses the exported functions defined in the given `globs` of TypeScript

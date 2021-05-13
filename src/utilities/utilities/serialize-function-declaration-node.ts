@@ -1,14 +1,14 @@
 import ts from 'typescript'
 
 import { FunctionData } from '../../types.js'
-import { normalizeReturnTypeString } from './normalize-return-type-string.js'
-import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
-import { getNextSiblingNode } from './operations/get-sibling-node.js'
-import { isKind } from './operations/is-kind.js'
-import { parseJsDoc } from './parse-js-doc.js'
-import { serializeSyntaxListNode } from './serialize-parameters-syntax-list-node.js'
-import { serializeTypeParametersSyntaxListNode } from './serialize-type-parameters-syntax-list-node.js'
-import { traverseNode } from './traverse-node.js'
+import { normalizeReturnTypeString } from './utilities/normalize-return-type-string.js'
+import { findFirstChildNodeOfKind } from './utilities/operations/find-first-child-node-of-kind.js'
+import { getNextSiblingNode } from './utilities/operations/get-sibling-node.js'
+import { isKind } from './utilities/operations/is-kind.js'
+import { parseJsDoc } from './utilities/parse-js-doc.js'
+import { serializeSyntaxListNode } from './utilities/serialize-parameters-syntax-list-node.js'
+import { serializeTypeParametersSyntaxListNode } from './utilities/serialize-type-parameters-syntax-list-node.js'
+import { traverseNode } from './utilities/traverse-node.js'
 
 /*
 AST of `node`:

@@ -1,6 +1,6 @@
 import ts from 'typescript'
 
-import { TypeParameterData } from '../../types.js'
+import { TypeParameterData } from '../../../types.js'
 import { normalizeTypeString } from './normalize-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
