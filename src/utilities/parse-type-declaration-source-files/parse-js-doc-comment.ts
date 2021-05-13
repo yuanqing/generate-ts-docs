@@ -4,6 +4,7 @@ import { TagsData } from '../../types.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { traverseNode } from './traverse-node.js'
 
+// Returns `null` if the JSDoc comment contains an `@ignore` tag
 export function parseJsDocComment(node: ts.Node): null | {
   description: null | string
   parameters: null | TagsData
@@ -14,6 +15,7 @@ export function parseJsDocComment(node: ts.Node): null | {
     findFirstChildNodeOfKind(ts.SyntaxKind.JSDocComment)
   ])
   if (jsDocCommentNode === null) {
+    // No JSDoc comment
     return {
       description: null,
       parameters: null,
