@@ -240,10 +240,7 @@ Generate a Markdown table of contents for the given `categories`.
 
 ***Parameters***
 
-- **`categories`** (`Array<{
-  name: string;
-  functionsData: Array<FunctionData>;
-}>`)
+- **`categories`** (`Array<{ name: string; functionsData: Array<FunctionData>; }>`)
 
 ***Return type***
 
