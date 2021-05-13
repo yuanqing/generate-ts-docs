@@ -33,7 +33,6 @@
     "fix": "eslint --fix './{example,scripts,src,test}/**/*.ts'",
     "generate-docs": "yarn run example && markdown-interpolate ./README.md",
     "lint": "eslint './{example,scripts,src,test}/**/*.ts'",
-    "postinstall": "simple-git-hooks && yarn run build",
     "prepublishOnly": "yarn run build",
     "reset": "yarn run clean && rm -rf ./node_modules ./yarn.lock && yarn install",
     "test": "ava './test/**/*.ts'",
