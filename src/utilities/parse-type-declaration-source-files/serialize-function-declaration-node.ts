@@ -1,7 +1,7 @@
 import ts from 'typescript'
 
 import { FunctionData } from '../../types.js'
-import { normalizeTypeString } from './normalize-type-string.js'
+import { normalizeReturnTypeString } from './normalize-return-type-string.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { getNextSiblingNode } from './operations/get-sibling-node.js'
 import { isKind } from './operations/is-kind.js'
@@ -80,7 +80,7 @@ export function serializeFunctionDeclarationNode(
         : serializeSyntaxListNode(parametersSyntaxListNode, jsDoc.parameters),
     returnType: {
       description: jsDoc.returnType,
-      type: normalizeTypeString(returnTypeNode.getText())
+      type: normalizeReturnTypeString(returnTypeNode.getText())
     },
     typeParameters:
       typeParametersSyntaxListNode === null
