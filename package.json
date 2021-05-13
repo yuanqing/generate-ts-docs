@@ -27,7 +27,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "yarn run clean && tsc",
+    "build": "yarn run clean && tsc --build",
     "clean": "rm -rf './*.log' ./.nyc_output ./build ./coverage ./lib",
     "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm ./generate-ts-docs.ts > README.md",
     "fix": "eslint --fix './{example,scripts,src,test}/**/*.ts'",
