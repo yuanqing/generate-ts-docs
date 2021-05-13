@@ -1,25 +1,37 @@
-import { ParameterData } from '../types.js'
+import { ParameterData, TypeParameterData } from '../types.js'
 
 export function createFunctionTitle(
   name: string,
-  parametersData: Array<ParameterData>
+  typeParameters: Array<TypeParameterData>,
+  parameters: Array<ParameterData>
 ): string {
-  const parameters = parametersData.map(function ({
+  const typeParameterNames = typeParameters.map(function ({
+    name
+  }: TypeParameterData): string {
+    return name
+  })
+  const typeParametersString =
+    typeParameterNames.length === 0 ? '' : `<${typeParameterNames.join(', ')}>`
+  const parameterNames = parameters.map(function ({
     name
   }: ParameterData): string {
     return name
   })
-  const firstOptionalIndex = parametersData.findIndex(function ({
+  const firstOptionalParameterIndex = parameters.findIndex(function ({
     optional
   }: ParameterData): boolean {
     return optional === true
   })
-  if (firstOptionalIndex === -1) {
-    return `${name}(${parameters.join(', ')})`
+  if (firstOptionalParameterIndex === -1) {
+    // No optional parameters
+    return `${name}${typeParametersString}(${parameterNames.join(', ')})`
   }
-  const requiredParameters = parameters.slice(0, firstOptionalIndex)
-  const optionalParameters = parameters.slice(firstOptionalIndex)
-  return `${name}(${requiredParameters.join(', ')} [, ${optionalParameters.join(
+  const requiredParameters = parameterNames.slice(
+    0,
+    firstOptionalParameterIndex
+  )
+  const optionalParameters = parameterNames.slice(firstOptionalParameterIndex)
+  return `${name}${typeParametersString}(${requiredParameters.join(
     ', '
-  )}])`
+  )} [, ${optionalParameters.join(', ')}])`
 }

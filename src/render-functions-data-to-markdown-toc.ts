@@ -13,8 +13,8 @@ export function renderFunctionsDataToMarkdownToc(
 ): string {
   const githubSlugger = new GithubSlugger()
   const lines = []
-  for (const { name, parameters: parametersData } of functionsData) {
-    const functionName = createFunctionTitle(name, parametersData)
+  for (const { name, parameters, typeParameters } of functionsData) {
+    const functionName = createFunctionTitle(name, typeParameters, parameters)
     lines.push(`- [${functionName}](#${githubSlugger.slug(functionName)})`)
   }
   return lines.join('\n')

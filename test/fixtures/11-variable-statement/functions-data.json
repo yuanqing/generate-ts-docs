@@ -1,0 +1,48 @@
+[
+  {
+    "description": null,
+    "name": "foo",
+    "parameters": [
+      {
+        "description": null,
+        "name": "x",
+        "optional": false,
+        "type": "A"
+      },
+      {
+        "description": null,
+        "name": "y",
+        "optional": false,
+        "type": "B"
+      },
+      {
+        "description": null,
+        "name": "z",
+        "optional": false,
+        "type": "C"
+      }
+    ],
+    "returnType": {
+      "description": null,
+      "type": "{\n  x: A;\n  y: B;\n  z: C;\n}"
+    },
+    "tags": null,
+    "typeParameters": [
+      {
+        "defaultType": null,
+        "name": "A",
+        "type": "string | number"
+      },
+      {
+        "defaultType": "string",
+        "name": "B",
+        "type": "string | number"
+      },
+      {
+        "defaultType": "null",
+        "name": "C",
+        "type": null
+      }
+    ]
+  }
+]

@@ -4,7 +4,7 @@ import globby from 'globby'
 import { basename, dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'
 
-import { parseExportedFunctionsAsync } from '../src/parse-exported-functions-async.js'
+import { renderFunctionDataToMarkdown } from '../src/render-function-data-to-markdown.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const fixtureDirectoryPaths = globby.sync(
@@ -20,14 +20,20 @@ for (const fixtureDirectoryPath of fixtureDirectoryPaths) {
   // }
   test(testName, async function (t) {
     t.plan(1)
-    const actual = await parseExportedFunctionsAsync([
-      join(fixtureDirectoryPath, 'code.ts')
-    ])
-    const expected = JSON.parse(
+    const functionsData = JSON.parse(
       await fs.readFile(
         join(fixtureDirectoryPath, 'functions-data.json'),
         'utf8'
       )
+    )
+    const result = []
+    for (const functionData of functionsData) {
+      result.push(renderFunctionDataToMarkdown(functionData))
+    }
+    const actual = result.join('\n')
+    const expected = await fs.readFile(
+      join(fixtureDirectoryPath, 'markdown.md'),
+      'utf8'
     )
     t.deepEqual(actual, expected)
   })

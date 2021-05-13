@@ -1,7 +1,8 @@
-import { FunctionData, ParameterData } from './types.js'
+import { FunctionData, ParameterData, TypeParameterData } from './types.js'
 import { createFunctionTitle } from './utilities/create-function-title.js'
 
-const indentSize = 2
+const INDENT_SIZE = 2
+const EN_DASH = '–'
 
 /**
  * @param options.headerLevel  Header level to be used for rendering the
@@ -13,26 +14,34 @@ export function renderFunctionDataToMarkdown(
   options?: { headerLevel: number }
 ): string {
   const headerLevel = typeof options === 'undefined' ? 1 : options.headerLevel
-  const {
-    description,
-    name,
-    parameters: parametersData,
-    returnType
-  } = functionData
+  const { description, name, parameters, typeParameters, returnType } =
+    functionData
   const lines: Array<string> = []
   lines.push(
-    `${'#'.repeat(headerLevel)} ${createFunctionTitle(name, parametersData)}`
+    `${'#'.repeat(headerLevel)} ${createFunctionTitle(
+      name,
+      typeParameters,
+      parameters
+    )}`
   )
   lines.push('')
   if (description !== null) {
     lines.push(`${description}`)
     lines.push('')
   }
-  if (parametersData.length > 0) {
+  if (typeParameters.length > 0) {
+    lines.push('***Type parameters***')
+    lines.push('')
+    for (const typeParameter of typeParameters) {
+      lines.push(stringifyTypeParameter(typeParameter, 0))
+    }
+    lines.push('')
+  }
+  if (parameters.length > 0) {
     lines.push('***Parameters***')
     lines.push('')
-    for (const parameterData of parametersData) {
-      lines.push(stringifyParameter(parameterData, 0))
+    for (const parameter of parameters) {
+      lines.push(stringifyParameter(parameter, 0))
     }
     lines.push('')
   }
@@ -51,16 +60,33 @@ export function renderFunctionDataToMarkdown(
   return lines.join('\n')
 }
 
-function stringifyParameter(parameterData: ParameterData, indent: number) {
+function stringifyTypeParameter(
+  { defaultType, name, type }: TypeParameterData,
+  indent: number
+) {
   const line: Array<string> = []
-  const { description, name, optional, type } = parameterData
-  line.push(
-    `${' '.repeat(indent * indentSize)}- **\`${name}\`** (\`${
-      typeof type === 'string' ? type : type.type
-    }\`)`
-  )
+  line.push(`${' '.repeat(indent * INDENT_SIZE)}-`)
+  line.push(`**\`${name}\`**`)
+  if (typeof type === 'string') {
+    line.push(`(\`${type}\`)`)
+  }
+  if (typeof defaultType === 'string') {
+    line.push(EN_DASH)
+    line.push(`*Defaults to \`${defaultType}\`.*`)
+  }
+  return line.join(' ')
+}
+
+function stringifyParameter(
+  { description, name, optional, type }: ParameterData,
+  indent: number
+) {
+  const line: Array<string> = []
+  line.push(`${' '.repeat(indent * INDENT_SIZE)}-`)
+  line.push(`**\`${name}\`**`)
+  line.push(`(\`${typeof type === 'string' ? type : type.type}\`)`)
   if (optional === true || description !== null) {
-    line.push('–') // en-dash
+    line.push(EN_DASH)
   }
   if (optional === true) {
     line.push('*Optional.*')

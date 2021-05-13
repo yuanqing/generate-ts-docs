@@ -1,0 +1,26 @@
+[
+  {
+    "description": null,
+    "name": "foo",
+    "parameters": [
+      {
+        "description": null,
+        "name": "x",
+        "optional": true,
+        "type": "unknown"
+      },
+      {
+        "description": null,
+        "name": "y",
+        "optional": true,
+        "type": "unknown"
+      }
+    ],
+    "returnType": {
+      "description": null,
+      "type": "{\n  x?: unknown;\n  y?: unknown;\n}"
+    },
+    "tags": null,
+    "typeParameters": []
+  }
+]

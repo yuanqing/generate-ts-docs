@@ -1,0 +1,26 @@
+[
+  {
+    "description": null,
+    "name": "add",
+    "parameters": [
+      {
+        "description": "First number to add.",
+        "name": "x",
+        "optional": false,
+        "type": "number"
+      },
+      {
+        "description": "Second number to add.",
+        "name": "y",
+        "optional": false,
+        "type": "number"
+      }
+    ],
+    "returnType": {
+      "description": null,
+      "type": "number"
+    },
+    "tags": null,
+    "typeParameters": []
+  }
+]

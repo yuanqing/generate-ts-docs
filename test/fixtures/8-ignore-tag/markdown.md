@@ -1,0 +1,7 @@
+# noop()
+
+***Return type***
+
+```
+void
+```

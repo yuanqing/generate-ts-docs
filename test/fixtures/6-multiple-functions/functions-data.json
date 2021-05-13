@@ -1,0 +1,37 @@
+[
+  {
+    "description": null,
+    "name": "add",
+    "parameters": [
+      {
+        "description": null,
+        "name": "x",
+        "optional": false,
+        "type": "number"
+      },
+      {
+        "description": null,
+        "name": "y",
+        "optional": false,
+        "type": "number"
+      }
+    ],
+    "returnType": {
+      "description": null,
+      "type": "number"
+    },
+    "tags": null,
+    "typeParameters": []
+  },
+  {
+    "description": null,
+    "name": "noop",
+    "parameters": [],
+    "returnType": {
+      "description": null,
+      "type": "void"
+    },
+    "tags": null,
+    "typeParameters": []
+  }
+]
