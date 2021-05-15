@@ -4,7 +4,7 @@ import { JsDocTagsData } from '../../../types.js'
 import { findFirstChildNodeOfKind } from './operations/find-first-child-node-of-kind.js'
 import { traverseNode } from './traverse-node.js'
 
-// Returns `null` if the JSDoc comment contains an `@ignore` tag
+// Returns `null` if the JSDoc comment contains an `@ignore` or `@internal` tag
 export function parseJsDoc(node: ts.Node): null | {
   description: null | string
   parameters: null | JsDocTagsData
@@ -24,8 +24,11 @@ export function parseJsDoc(node: ts.Node): null | {
     }
   }
   const tags = parseTags(jsDocCommentNode)
-  if (tags !== null && typeof tags.ignore !== 'undefined') {
-    // Has `@ignore` tag, so return `null`
+  if (
+    tags !== null &&
+    (typeof tags.ignore !== 'undefined' || typeof tags.internal !== 'undefined')
+  ) {
+    // Has `@ignore` or `@internal` tag, so return `null`
     return null
   }
   const description = (jsDocCommentNode as ts.JSDoc).comment
