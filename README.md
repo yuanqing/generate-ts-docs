@@ -168,7 +168,7 @@ type TypeParameterData = {
 
 Parses the exported functions defined in the given `globs` of TypeScript files.
 
-- Functions with the `@ignore` JSDoc tag will be skipped.
+- Functions with the `@ignore` or `@internal` JSDoc tag(s) will be skipped.
 - Functions will be sorted in *ascending* order of their `@weight` JSDoc tag. A function with the `@weight` tag will be ranked *before* a function without the `@weight` tag.
 
 ***Parameters***
