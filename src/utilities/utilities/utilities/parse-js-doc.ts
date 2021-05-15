@@ -24,7 +24,7 @@ export function parseJsDoc(node: ts.Node): null | {
     }
   }
   const tags = parseTags(jsDocCommentNode)
-  if (tags !== null && typeof tags.ignore !== 'undefined') {
+  if (tags !== null && (typeof tags.ignore !== 'undefined' || typeof tags.internal !== 'undefined')) {
     // Has `@ignore` tag, so return `null`
     return null
   }
