@@ -28,14 +28,14 @@
   ],
   "scripts": {
     "build": "yarn run clean && tsc --build",
-    "clean": "rm -rf './*.log' ./.nyc_output ./build ./coverage ./lib",
-    "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm ./generate-ts-docs.ts > README.md",
-    "fix": "eslint --fix './{example,scripts,src,test}/**/*.ts'",
-    "generate-docs": "yarn run example && markdown-interpolate ./README.md",
-    "lint": "eslint './{example,scripts,src,test}/**/*.ts'",
+    "clean": "rm -rf '*.log' build coverage lib",
+    "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm generate-ts-docs.ts > README.md",
+    "fix": "eslint --fix '{scripts,src,test}/**/*.ts'",
+    "generate-docs": "yarn run example && markdown-interpolate README.md",
+    "lint": "eslint '{scripts,src,test}/**/*.ts'",
     "prepublishOnly": "yarn run build",
-    "reset": "yarn run clean && rm -rf ./node_modules ./yarn.lock && yarn install",
-    "test": "ava './test/**/*.ts'",
+    "reset": "yarn run clean && rm -rf node_modules yarn.lock && yarn install",
+    "test": "ava 'test/**/*.ts'",
     "watch": "yarn run clean && tsc --watch"
   },
   "dependencies": {
@@ -77,7 +77,7 @@
     "extends": "eslint-config-yuanqing"
   },
   "lint-staged": {
-    "*.ts": [
+    "{scripts,src,test}/**/*.ts": [
       "eslint"
     ]
   },
