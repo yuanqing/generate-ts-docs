@@ -32,10 +32,7 @@ export function parseJsDoc(node: ts.Node): null | {
   const returnType = parseReturnTypeDescription(jsDocCommentNode)
   const parameters = parseParameterDescriptions(jsDocCommentNode)
   return {
-    description:
-      typeof description === 'undefined'
-        ? null
-        : normalizeLineBreaks(description),
+    description: typeof description === 'undefined' ? null : description,
     parameters,
     returnType:
       typeof returnType === 'undefined' || returnType === null
@@ -57,7 +54,7 @@ function parseReturnTypeDescription(node: ts.Node): null | string {
   if (typeof returnTypeDescription === 'undefined') {
     return null
   }
-  return normalizeLineBreaks(returnTypeDescription)
+  return returnTypeDescription
 }
 
 function parseParameterDescriptions(node: ts.Node): null | JsDocTagsData {
@@ -90,14 +87,7 @@ function parseJsDocTagNodes(
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
     const comment = (jsDocTagNode as ts.JSDocTag).comment
-    result[key] =
-      typeof comment === 'undefined' ? null : normalizeLineBreaks(comment)
+    result[key] = typeof comment === 'undefined' ? null : comment
   }
   return result
-}
-
-const singleLineBreakRegex = /\n(?![\n-])/g
-
-export function normalizeLineBreaks(string: string) {
-  return string.replace(singleLineBreakRegex, ' ')
 }
