@@ -31,8 +31,6 @@ export function add(x: number, y: number): number {
 
 <!-- ```ts markdown-interpolate: sed 's/\.\.\/src\/index\.js/generate-ts-docs/' ./example/generate-ts-docs.ts -->
 ```ts
-/* eslint-disable no-console */
-
 import {
   parseExportedFunctionsAsync,
   renderFunctionDataToMarkdown
@@ -166,16 +164,20 @@ type TypeParameterData = {
 
 #### parseExportedFunctionsAsync(globs [, options])
 
-Parses the exported functions defined in the given `globs` of TypeScript files.
+Parses the exported functions defined in the given `globs` of TypeScript
+files.
 
 - Functions with the `@ignore` JSDoc tag will be skipped.
-- Functions will be sorted in *ascending* order of their `@weight` JSDoc tag. A function with the `@weight` tag will be ranked *before* a function without the `@weight` tag.
+- Functions will be sorted in *ascending* order of their `@weight` JSDoc
+tag. A function with the `@weight` tag will be ranked *before* a function
+without the `@weight` tag.
 
 ***Parameters***
 
 - **`globs`** (`Array<string>`) – One or more globs of TypeScript files.
 - **`options`** (`object`) – *Optional.*
-  - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file. Defaults to `./tsconfig.json`.
+  - **`tsconfigFilePath`** (`string`) – Path to a TypeScript configuration file.
+Defaults to `./tsconfig.json`.
 
 ***Return type***
 
@@ -185,7 +187,8 @@ Promise<Array<FunctionData>>
 
 #### createCategories(functionsData)
 
-Groups each object in `functionsData` by the value of each function’s `tags.category` key.
+Groups each object in `functionsData` by the value of each function’s
+`tags.category` key.
 
 ***Parameters***
 
@@ -210,7 +213,8 @@ Array<{
   - **`name`** (`string`)
   - **`functionsData`** (`Array<FunctionData>`)
 - **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the category name. Defaults to `1` (ie. `#`).
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the
+category name. Defaults to `1` (ie. `#`).
 
 ***Return type***
 
@@ -224,7 +228,8 @@ string
 
 - **`functionData`** (`FunctionData`)
 - **`options`** (`object`) – *Optional.*
-  - **`headerLevel`** (`number`) – Header level to be used for rendering the function name. Defaults to `1` (ie. `#`).
+  - **`headerLevel`** (`number`) – Header level to be used for rendering the
+function name. Defaults to `1` (ie. `#`).
 
 ***Return type***
 
