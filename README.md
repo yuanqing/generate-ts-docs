@@ -6,7 +6,7 @@
 
 First:
 
-```sh
+```
 $ npm install --save-dev generate-ts-docs
 ```
 
@@ -80,7 +80,7 @@ main()
 
 Now, let’s run the `generate-ts-docs.ts` script, piping its output to a file:
 
-````sh
+````
 $ npm install --dev ts-node
 $ node --loader ts-node/esm generate-ts-docs.ts > README.md
 ````
@@ -271,7 +271,7 @@ string
 
 ## Installation
 
-```sh
+```
 $ npm install --save-dev generate-ts-docs
 ```
 
