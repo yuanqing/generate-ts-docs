@@ -7,18 +7,21 @@
         "description": null,
         "name": "x",
         "optional": false,
+        "rest": false,
         "type": "A"
       },
       {
         "description": null,
         "name": "y",
         "optional": false,
+        "rest": false,
         "type": "B"
       },
       {
         "description": null,
         "name": "z",
         "optional": false,
+        "rest": false,
         "type": "C"
       }
     ],

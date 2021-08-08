@@ -30,7 +30,7 @@
     "build": "yarn run clean && tsc --build",
     "clean": "rm -rf '*.log' build coverage lib",
     "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm generate-ts-docs.ts > README.md",
-    "fix": "eslint --fix '{scripts,src,test}/**/*.ts'",
+    "fix": "eslint --fix '{scripts,src,test}/**/*.ts' && prettier --write 'test/**/*.json'",
     "generate-docs": "yarn run example && markdown-interpolate README.md",
     "lint": "eslint '{scripts,src,test}/**/*.ts'",
     "prepublishOnly": "yarn run build",
@@ -40,21 +40,21 @@
   },
   "dependencies": {
     "github-slugger": "^1.3.0",
-    "globby": "^11.0.3"
+    "globby": "^12.0.0"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.11",
+    "@types/fs-extra": "^9.0.12",
     "@types/github-slugger": "^1.3.0",
-    "@types/node": "^15.0.3",
+    "@types/node": "^16.4.13",
     "ava": "^3.15.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0",
     "eslint-config-yuanqing": "^0.0.5",
     "fs-extra": "^10.0.0",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.1.2",
     "markdown-interpolate": "^0.0.7",
-    "prettier": "^2.3.0",
-    "simple-git-hooks": "^2.4.1",
-    "ts-node": "^9.1.1",
+    "prettier": "^2.3.2",
+    "simple-git-hooks": "^2.5.1",
+    "ts-node": "^10.1.0",
     "typescript": "^4"
   },
   "peerDependencies": {

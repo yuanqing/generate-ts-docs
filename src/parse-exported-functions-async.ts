@@ -1,4 +1,4 @@
-import globby from 'globby'
+import { globby } from 'globby'
 
 import { FunctionData } from './types.js'
 import { generateTypeDeclarationSourceFiles } from './utilities/generate-type-declaration-source-files.js'

@@ -1,13 +1,13 @@
 import test from 'ava'
 import fs from 'fs-extra'
-import globby from 'globby'
+import { globbySync } from 'globby'
 import { basename, dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'
 
 import { renderFunctionDataToMarkdown } from '../src/render-function-data-to-markdown.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const fixtureDirectoryPaths = globby.sync(
+const fixtureDirectoryPaths = globbySync(
   `${resolve(__dirname, 'fixtures')}/*`,
   { onlyDirectories: true }
 )

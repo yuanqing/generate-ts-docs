@@ -28,7 +28,9 @@ export function parseJsDoc(node: ts.Node): null | {
     // Has `@ignore` tag, so return `null`
     return null
   }
-  const description = (jsDocCommentNode as ts.JSDoc).comment
+  const description = ts.getTextOfJSDocComment(
+    (jsDocCommentNode as ts.JSDoc).comment
+  )
   const returnType = parseReturnTypeDescription(jsDocCommentNode)
   const parameters = parseParameterDescriptions(jsDocCommentNode)
   return {
@@ -49,8 +51,9 @@ function parseReturnTypeDescription(node: ts.Node): null | string {
   if (jsDocReturnTagNode === null) {
     return null
   }
-  const returnTypeDescription = (jsDocReturnTagNode as ts.JSDocReturnTag)
-    .comment
+  const returnTypeDescription = ts.getTextOfJSDocComment(
+    (jsDocReturnTagNode as ts.JSDocReturnTag).comment
+  )
   if (typeof returnTypeDescription === 'undefined') {
     return null
   }
@@ -86,7 +89,9 @@ function parseJsDocTagNodes(
   const result: JsDocTagsData = {}
   for (const jsDocTagNode of jsDocTagNodes) {
     const key = jsDocTagNode.getChildAt(keyIndex).getText()
-    const comment = (jsDocTagNode as ts.JSDocTag).comment
+    const comment = ts.getTextOfJSDocComment(
+      (jsDocTagNode as ts.JSDocTag).comment
+    )
     result[key] = typeof comment === 'undefined' ? null : comment
   }
   return result

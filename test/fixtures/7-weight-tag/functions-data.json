@@ -20,12 +20,14 @@
         "description": null,
         "name": "x",
         "optional": false,
+        "rest": false,
         "type": "number"
       },
       {
         "description": null,
         "name": "y",
         "optional": false,
+        "rest": false,
         "type": "number"
       }
     ],

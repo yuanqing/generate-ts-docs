@@ -38,6 +38,9 @@ export function serializeSyntaxListNode(
       ) // When `node` is an object literal type
     })
   return parameterNodes.map(function (parameterNode: ts.Node): ParameterData {
+    const dotDotDotTokenNode = traverseNode(parameterNode, [
+      findFirstChildNodeOfKind(ts.SyntaxKind.DotDotDotToken)
+    ])
     const identifierNode = traverseNode(parameterNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.Identifier)
     ])
@@ -62,6 +65,7 @@ export function serializeSyntaxListNode(
       description: typeof description === 'undefined' ? null : description,
       name,
       optional: questionTokenNode !== null,
+      rest: dotDotDotTokenNode !== null,
       type: serializeTypeNode(
         typeNode,
         jsDocData === null

@@ -1,7 +1,7 @@
 [
   {
     "description": null,
-    "name": "add",
+    "name": "foo",
     "parameters": [
       {
         "description": null,
@@ -14,17 +14,15 @@
         "description": null,
         "name": "y",
         "optional": false,
-        "rest": false,
-        "type": "number"
+        "rest": true,
+        "type": "Array<number>"
       }
     ],
     "returnType": {
       "description": null,
       "type": "number"
     },
-    "jsDocTags": {
-      "category": "Math"
-    },
+    "jsDocTags": null,
     "typeParameters": []
   }
 ]

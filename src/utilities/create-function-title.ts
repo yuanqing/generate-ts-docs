@@ -15,8 +15,12 @@ export function createFunctionTitle(
       ? ''
       : `&lt;${typeParameterNames.join(', ')}&gt;`
   const parameterNames = parameters.map(function ({
-    name
+    name,
+    rest
   }: ParameterData): string {
+    if (rest === true) {
+      return `...${name}`
+    }
     return name
   })
   const firstOptionalParameterIndex = parameters.findIndex(function ({

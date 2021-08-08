@@ -18,6 +18,7 @@ export type ParameterData = {
   description: null | string
   name: string
   optional: boolean
+  rest: boolean
   type: string | ObjectData
 }
 

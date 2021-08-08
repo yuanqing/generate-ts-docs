@@ -7,12 +7,14 @@
         "description": null,
         "name": "x",
         "optional": true,
+        "rest": false,
         "type": "unknown"
       },
       {
         "description": null,
         "name": "y",
         "optional": true,
+        "rest": false,
         "type": "unknown"
       }
     ],

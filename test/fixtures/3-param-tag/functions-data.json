@@ -7,12 +7,14 @@
         "description": "First number to add.",
         "name": "x",
         "optional": false,
+        "rest": false,
         "type": "number"
       },
       {
         "description": "Second number to add.",
         "name": "y",
         "optional": false,
+        "rest": false,
         "type": "number"
       }
     ],
