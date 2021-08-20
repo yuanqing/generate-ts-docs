@@ -37,6 +37,9 @@ export function createFunctionTitle(
     firstOptionalParameterIndex
   )
   const optionalParameters = parameterNames.slice(firstOptionalParameterIndex)
+  if (requiredParameters.length === 0) {
+    return `${name}${typeParametersString}([${optionalParameters.join(', ')}])`
+  }
   return `${name}${typeParametersString}(${requiredParameters.join(
     ', '
   )} [, ${optionalParameters.join(', ')}])`
