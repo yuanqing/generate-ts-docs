@@ -1,5 +1,5 @@
 import { FunctionData, ParameterData, TypeParameterData } from './types.js'
-import { createFunctionTitle } from './utilities/create-function-title.js'
+import { createTitle } from './utilities/create-title.js'
 
 const INDENT_SIZE = 2
 const EN_DASH = '–'
@@ -14,22 +14,30 @@ export function renderFunctionDataToMarkdown(
   options?: { headerLevel: number }
 ): string {
   const headerLevel = typeof options === 'undefined' ? 1 : options.headerLevel
-  const { description, name, parameters, typeParameters, returnType } =
+  const { description, name, parameters, type, typeParameters, returnType } =
     functionData
   const lines: Array<string> = []
   lines.push(
-    `${'#'.repeat(headerLevel)} ${createFunctionTitle(
+    `${'#'.repeat(headerLevel)} ${createTitle(
       name,
+      type,
       typeParameters,
       parameters
     )}`
   )
   lines.push('')
+  if (type !== 'function') {
+    lines.push(`(\`${type}\`)`)
+    lines.push('')
+  }
   if (description !== null) {
     lines.push(`${description}`)
     lines.push('')
   }
-  if (typeParameters.length > 0) {
+  if (type !== 'function') {
+    return lines.join('\n')
+  }
+  if (typeParameters !== null && typeParameters.length > 0) {
     lines.push('***Type parameters***')
     lines.push('')
     for (const typeParameter of typeParameters) {
@@ -37,7 +45,7 @@ export function renderFunctionDataToMarkdown(
     }
     lines.push('')
   }
-  if (parameters.length > 0) {
+  if (parameters !== null && parameters.length > 0) {
     lines.push('***Parameters***')
     lines.push('')
     for (const parameter of parameters) {

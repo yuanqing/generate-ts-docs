@@ -1,0 +1,11 @@
+[
+  {
+    "description": "bar",
+    "name": "foo",
+    "parameters": null,
+    "returnType": null,
+    "jsDocTags": null,
+    "type": "string",
+    "typeParameters": null
+  }
+]

@@ -30,6 +30,7 @@
       "type": "{\n  x: A;\n  y: B;\n  z: C;\n}"
     },
     "jsDocTags": null,
+    "type": "function",
     "typeParameters": [
       {
         "defaultType": null,

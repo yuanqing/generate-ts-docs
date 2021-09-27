@@ -45,7 +45,7 @@ export function serializeSyntaxListNode(
       findFirstChildNodeOfKind(ts.SyntaxKind.Identifier)
     ])
     if (identifierNode === null) {
-      throw new Error('`identifierNode` is null')
+      throw new Error('`identifierNode` is `null`')
     }
     const questionTokenNode = traverseNode(parameterNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
@@ -57,7 +57,7 @@ export function serializeSyntaxListNode(
       getNextSiblingNode()
     ])
     if (typeNode === null) {
-      throw new Error('`typeNode` is null')
+      throw new Error('`typeNode` is `null`')
     }
     const name = identifierNode.getText()
     const description = jsDocData === null ? null : jsDocData[name]

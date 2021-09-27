@@ -1,10 +1,14 @@
 import { ParameterData, TypeParameterData } from '../types.js'
 
-export function createFunctionTitle(
+export function createTitle(
   name: string,
-  typeParameters: Array<TypeParameterData>,
-  parameters: Array<ParameterData>
+  type: string,
+  typeParameters: null | Array<TypeParameterData>,
+  parameters: null | Array<ParameterData>
 ): string {
+  if (typeParameters === null || parameters === null) {
+    return name
+  }
   const typeParameterNames = typeParameters.map(function ({
     name
   }: TypeParameterData): string {

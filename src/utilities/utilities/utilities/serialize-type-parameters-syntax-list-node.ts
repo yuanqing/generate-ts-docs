@@ -37,7 +37,7 @@ export function serializeTypeParametersSyntaxListNode(
       findFirstChildNodeOfKind(ts.SyntaxKind.Identifier)
     ])
     if (identifierNode === null) {
-      throw new Error('`identifierNode` is null')
+      throw new Error('`identifierNode` is `null`')
     }
     const typeNode = traverseNode(typeParameterNode, [
       findFirstChildNodeOfKind(ts.SyntaxKind.ExtendsKeyword),

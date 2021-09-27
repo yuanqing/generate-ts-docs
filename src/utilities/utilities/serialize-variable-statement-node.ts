@@ -3,10 +3,7 @@ import ts from 'typescript'
 import { FunctionData } from '../../types.js'
 import { normalizeReturnTypeString } from './utilities/normalize-return-type-string.js'
 import { findFirstChildNodeOfKind } from './utilities/operations/find-first-child-node-of-kind.js'
-import {
-  getNextSiblingNode,
-  getPreviousSiblingNode
-} from './utilities/operations/get-sibling-node.js'
+import { getNextSiblingNode } from './utilities/operations/get-sibling-node.js'
 import { isKind } from './utilities/operations/is-kind.js'
 import { parseJsDoc } from './utilities/parse-js-doc.js'
 import { serializeSyntaxListNode } from './utilities/serialize-parameters-syntax-list-node.js'
@@ -14,7 +11,19 @@ import { serializeTypeParametersSyntaxListNode } from './utilities/serialize-typ
 import { traverseNode } from './utilities/traverse-node.js'
 
 /*
-AST of `node`:
+AST of a `const` `node`:
+- JSDocComment
+- SyntaxList
+  - ExportKeyword
+  - DeclareKeyword
+- VariableDeclarationList
+  - ConstKeyword
+  - SyntaxList
+      - Identifier <= `identifierNode`
+      - ColonToken
+      - StringKeyword <= `typeNode`
+
+AST of a `function` `node`:
 - JSDocComment
 - SyntaxList
   - ExportKeyword
@@ -25,7 +34,7 @@ AST of `node`:
     - VariableDeclaration <= `variableDeclarationNode`
       - Identifier <= `identifierNode`
       - ColonToken
-      - FunctionType <= `functionTypeNode`
+      - FunctionType <= `typeNode`
         - LessThanToken
         - SyntaxList <= `typeParametersSyntaxListNode`
           - ...
@@ -52,40 +61,48 @@ export function serializeVariableStatementNode(
     findFirstChildNodeOfKind(ts.SyntaxKind.VariableDeclaration)
   ])
   if (variableDeclarationNode === null) {
-    throw new Error('`variableDeclarationNode` is null')
+    throw new Error('`variableDeclarationNode` is `null`')
   }
   const identifierNode = traverseNode(variableDeclarationNode, [
-    findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
-    getPreviousSiblingNode(),
-    isKind(ts.SyntaxKind.Identifier)
+    findFirstChildNodeOfKind(ts.SyntaxKind.Identifier)
   ])
   if (identifierNode === null) {
-    throw new Error('`identifierNode` is null')
+    throw new Error('`identifierNode` is `null`')
   }
-  const functionTypeNode = traverseNode(variableDeclarationNode, [
+  const typeNode = traverseNode(variableDeclarationNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.ColonToken),
-    getNextSiblingNode(),
-    isKind(ts.SyntaxKind.FunctionType)
+    getNextSiblingNode()
   ])
-  if (functionTypeNode === null) {
-    throw new Error('`functionTypeNode` is null')
+  if (typeNode === null) {
+    throw new Error('`typeNode` is `null`')
   }
-  const typeParametersSyntaxListNode = traverseNode(functionTypeNode, [
+  if (typeNode.kind !== ts.SyntaxKind.FunctionType) {
+    return {
+      description: jsDoc.description,
+      jsDocTags: jsDoc.tags,
+      name: identifierNode.getText(),
+      parameters: null,
+      returnType: null,
+      type: typeNode.getText(),
+      typeParameters: null
+    }
+  }
+  const typeParametersSyntaxListNode = traverseNode(typeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.LessThanToken),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.SyntaxList)
   ])
-  const parametersSyntaxListNodes = traverseNode(functionTypeNode, [
+  const parametersSyntaxListNodes = traverseNode(typeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.OpenParenToken),
     getNextSiblingNode(),
     isKind(ts.SyntaxKind.SyntaxList)
   ])
-  const returnTypeNode = traverseNode(functionTypeNode, [
+  const returnTypeNode = traverseNode(typeNode, [
     findFirstChildNodeOfKind(ts.SyntaxKind.EqualsGreaterThanToken),
     getNextSiblingNode()
   ])
   if (returnTypeNode === null) {
-    throw new Error('`returnTypeNode` is null')
+    throw new Error('`returnTypeNode` is `null`')
   }
   return {
     description: jsDoc.description,
@@ -99,6 +116,7 @@ export function serializeVariableStatementNode(
       description: jsDoc.returnType,
       type: normalizeReturnTypeString(returnTypeNode.getText())
     },
+    type: 'function',
     typeParameters:
       typeParametersSyntaxListNode === null
         ? []

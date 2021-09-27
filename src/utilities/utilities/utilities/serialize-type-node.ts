@@ -28,7 +28,7 @@ function serializeTypeLiteralNode(
     isKind(ts.SyntaxKind.SyntaxList)
   ])
   if (parametersSyntaxListNode === null) {
-    throw new Error('`parametersSyntaxListNodes` is null')
+    throw new Error('`parametersSyntaxListNodes` is `null`')
   }
   return {
     keys: serializeSyntaxListNode(parametersSyntaxListNode, parametersJsDoc),

@@ -45,7 +45,7 @@ export function serializeFunctionDeclarationNode(
     isKind(ts.SyntaxKind.Identifier)
   ])
   if (identifierNode === null) {
-    throw new Error('`functionIdentifierNode` is null')
+    throw new Error('`functionIdentifierNode` is `null`')
   }
   const typeParametersSyntaxListNode = traverseNode(node, [
     findFirstChildNodeOfKind(ts.SyntaxKind.FunctionKeyword),
@@ -68,7 +68,7 @@ export function serializeFunctionDeclarationNode(
     getNextSiblingNode()
   ])
   if (returnTypeNode === null) {
-    throw new Error('`returnTypeNode` is null')
+    throw new Error('`returnTypeNode` is `null`')
   }
   return {
     description: jsDoc.description,
@@ -82,6 +82,7 @@ export function serializeFunctionDeclarationNode(
       description: jsDoc.returnType,
       type: normalizeReturnTypeString(returnTypeNode.getText())
     },
+    type: 'function',
     typeParameters:
       typeParametersSyntaxListNode === null
         ? []

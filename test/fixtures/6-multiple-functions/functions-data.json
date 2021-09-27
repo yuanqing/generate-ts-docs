@@ -23,6 +23,7 @@
       "type": "number"
     },
     "jsDocTags": null,
+    "type": "function",
     "typeParameters": []
   },
   {
@@ -34,6 +35,7 @@
       "type": "void"
     },
     "jsDocTags": null,
+    "type": "function",
     "typeParameters": []
   }
 ]
