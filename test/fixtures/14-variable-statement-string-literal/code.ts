@@ -1,4 +1,4 @@
 /**
  * bar
  */
-export const foo = 'baz'
+export const foo = 'x'

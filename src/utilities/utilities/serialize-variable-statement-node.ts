@@ -11,7 +11,7 @@ import { serializeTypeParametersSyntaxListNode } from './utilities/serialize-typ
 import { traverseNode } from './utilities/traverse-node.js'
 
 /*
-AST of a `const` `node`:
+AST of a `const` `node` (`literalNode`):
 - JSDocComment
 - SyntaxList
   - ExportKeyword
@@ -19,9 +19,21 @@ AST of a `const` `node`:
 - VariableDeclarationList
   - ConstKeyword
   - SyntaxList
-      - Identifier <= `identifierNode`
-      - ColonToken
-      - StringKeyword <= `typeNode`
+    - Identifier <= `identifierNode`
+    - EqualsToken
+    - StringLiteral <= `literalNode`
+
+AST of a `const` `node` (`typeNode`):
+- JSDocComment
+- SyntaxList
+  - ExportKeyword
+  - DeclareKeyword
+- VariableDeclarationList
+  - ConstKeyword
+  - SyntaxList
+    - Identifier <= `identifierNode`
+    - ColonToken
+    - StringKeyword <= `typeNode`
 
 AST of a `function` `node`:
 - JSDocComment
@@ -74,7 +86,23 @@ export function serializeVariableStatementNode(
     getNextSiblingNode()
   ])
   if (typeNode === null) {
-    throw new Error('`typeNode` is `null`')
+    // Literal eg. `true`, `false`, `42`, `'foo'`
+    const literalNode = traverseNode(variableDeclarationNode, [
+      findFirstChildNodeOfKind(ts.SyntaxKind.EqualsToken),
+      getNextSiblingNode()
+    ])
+    if (literalNode === null) {
+      throw new Error('`literalNode` is `null`')
+    }
+    return {
+      description: jsDoc.description,
+      jsDocTags: jsDoc.tags,
+      name: identifierNode.getText(),
+      parameters: null,
+      returnType: null,
+      type: mapLiteralNodeToType(literalNode),
+      typeParameters: null
+    }
   }
   if (typeNode.kind !== ts.SyntaxKind.FunctionType) {
     return {
@@ -122,4 +150,20 @@ export function serializeVariableStatementNode(
         ? []
         : serializeTypeParametersSyntaxListNode(typeParametersSyntaxListNode)
   }
+}
+
+function mapLiteralNodeToType(literalNode: ts.Node): string {
+  switch (literalNode.kind) {
+    case ts.SyntaxKind.TrueKeyword:
+    case ts.SyntaxKind.FalseKeyword: {
+      return 'boolean'
+    }
+    case ts.SyntaxKind.NumericLiteral: {
+      return 'number'
+    }
+    case ts.SyntaxKind.StringLiteral: {
+      return 'string'
+    }
+  }
+  throw new Error('Unsupported `literalNode` type')
 }
