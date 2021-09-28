@@ -60,16 +60,19 @@ main()
         description: 'First number to add.',
         name: 'x',
         optional: false,
+        rest: false,
         type: 'number'
       },
       {
         description: 'Second number to add.',
         name: 'y',
         optional: false,
+        rest: false,
         type: 'number'
       }
     ],
     returnType: { description: 'The sum of `x` and `y`.', type: 'number' },
+    type: 'function',
     typeParameters: []
   }
 ]
@@ -116,10 +119,11 @@ number
 type FunctionData = {
   description: null | string
   name: string
-  parameters: Array<ParameterData>
+  parameters: null | Array<ParameterData>
   returnType: null | ReturnTypeData
   jsDocTags: null | JsDocTagsData
-  typeParameters: Array<TypeParameterData>
+  type: string
+  typeParameters: null | Array<TypeParameterData>
 }
 
 type JsDocTagsData = Record<string, null | string>
@@ -133,6 +137,7 @@ type ParameterData = {
   description: null | string
   name: string
   optional: boolean
+  rest: boolean
   type: string | ObjectData
 }
 
