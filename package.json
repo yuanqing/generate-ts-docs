@@ -19,7 +19,7 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=12.20"
+    "node": ">=18"
   },
   "exports": "./lib/index.js",
   "main": "./lib/index.js",
@@ -27,50 +27,58 @@
     "lib"
   ],
   "scripts": {
-    "build": "yarn run clean && tsc --build",
-    "clean": "rm -rf '*.log' build coverage lib",
-    "example": "cd example && TS_NODE_PROJECT=../tsconfig.json node --loader ts-node/esm generate-ts-docs.ts > README.md",
+    "build": "npm run clean && tsc --build",
+    "clean": "rimraf '*.log' build lib",
+    "example": "cd example && tsx generate-ts-docs.ts > README.md",
     "fix": "eslint --fix '{scripts,src,test}/**/*.ts' && prettier --write 'test/**/*.json'",
-    "generate-docs": "yarn run example && markdown-interpolate README.md",
+    "generate-docs": "npm run example && markdown-interpolate README.md",
     "lint": "eslint '{scripts,src,test}/**/*.ts'",
-    "prepublishOnly": "yarn run build",
-    "reset": "yarn run clean && rm -rf node_modules yarn.lock && yarn install",
+    "postinstall": "simple-git-hooks",
+    "prepublishOnly": "npm run build",
+    "reset": "npm run clean && rimraf node_modules package-lock.json && npm install",
     "test": "ava 'test/**/*.ts'",
-    "watch": "yarn run clean && tsc --watch"
+    "watch": "npm run clean && tsc --watch"
   },
   "dependencies": {
-    "github-slugger": "^1.4.0",
-    "globby": "^12.0.2"
+    "github-slugger": "^2.0.0",
+    "globby": "^13.1.4"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.1",
     "@types/github-slugger": "^1.3.0",
-    "@types/node": "^16.10.1",
-    "ava": "^3.15.0",
-    "eslint": "^7.32.0",
-    "eslint-config-yuanqing": "^0.0.5",
-    "fs-extra": "^10.0.0",
-    "lint-staged": "^11.1.2",
+    "@types/node": "^20.2.4",
+    "@typescript-eslint/eslint-plugin": "5.59.7",
+    "ava": "^5.3.0",
+    "eslint": "^8.41.0",
+    "eslint-config-yuanqing": "0.0.8",
+    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-simple-import-sort": "10.0.0",
+    "eslint-plugin-sort-keys-fix": "1.1.2",
+    "fs-extra": "^11.1.1",
+    "lint-staged": "^13.2.2",
     "markdown-interpolate": "^0.0.7",
-    "prettier": "^2.4.1",
-    "simple-git-hooks": "^2.6.1",
-    "ts-node": "^10.2.1",
-    "typescript": "^4"
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "simple-git-hooks": "^2.8.1",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
+    "typescript": "^5"
   },
   "peerDependencies": {
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "ava": {
     "extensions": {
       "ts": "module"
     },
+    "failFast": true,
     "nodeArguments": [
       "--loader",
-      "ts-node/esm"
+      "tsx"
     ],
-    "nonSemVerExperiments": {
-      "configurableModuleFormat": true
-    },
     "timeout": "2m"
   },
   "eslintConfig": {
@@ -83,7 +91,7 @@
   },
   "prettier": "eslint-config-yuanqing/prettier",
   "simple-git-hooks": {
-    "pre-commit": "yarn run lint-staged",
-    "pre-push": "yarn run lint && yarn run fix && yarn run build && yarn run test"
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run lint && npm run fix && npm run build && npm run test"
   }
 }
